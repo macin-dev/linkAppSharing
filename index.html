@@ -26,7 +26,7 @@
           <img
             src="/assets/images/logo-devlinks-small.svg"
             alt="devlinks logo"
-            class="header-icon"
+            class="header-img"
           />
         </button>
 
@@ -69,15 +69,15 @@
           <img
             src="/assets/images/icon-preview-header.svg"
             alt="icon eye"
-            class="header-icon"
+            class="header-img"
           />
         </button>
       </nav>
     </header>
 
-    <section>
+    <section class="section-container">
       <!-- User read-only -->
-      <div class="phone-mockup-preview">
+      <div class="phone-mockup-preview hide-preview">
         <img
           src="/assets/images/illustration-phone-mockup.svg"
           alt="a mockup phone to preview the end result of displaying links"
@@ -85,37 +85,41 @@
       </div>
 
       <!-- User interaction -->
-      <main>
-        <h1>Customize your links</h1>
-        <p>
+      <main class="app">
+        <h1 class="app-title">Customize your links</h1>
+        <p class="app-text">
           Add/edit/remove links below and then share all your profiles with the
           world!
         </p>
 
-        <!-- Toggle button -->
-        <button type="button">&plus; Add new link</button>
+        <div class="add-link-container">
+          <!-- Toggle button -->
+          <button type="button" class="btn btn-secondary">
+            &plus; Add new link
+          </button>
 
-        <!-- Interactive form -->
-        <form>
-          <!-- Default state - empty -->
-          <div class="add-link-container">
-            <article class="add-link-hint">
-              <img
-                src="/assets/images/illustration-empty.svg"
-                alt="an illustration showing a hand touching a phone screen"
-              />
-              <h2>Let’s get you started</h2>
-              <p>
-                Use the “Add new link” button to get started. Once you have more
-                than one link, you can reorder and edit them. We’re here to help
-                you share your profiles with everyone!
-              </p>
-            </article>
-          </div>
+          <!-- Interactive form -->
+          <form class="form-add-link">
+            <!-- Default state - empty -->
+            <div class="add-link-empty">
+              <article class="add-link-hero">
+                <img
+                  src="/assets/images/illustration-empty.svg"
+                  alt="an illustration showing a hand touching a phone screen"
+                />
+                <h2>Let’s get you started</h2>
+                <p>
+                  Use the “Add new link” button to get started. Once you have
+                  more than one link, you can reorder and edit them. We’re here
+                  to help you share your profiles with everyone!
+                </p>
+              </article>
+            </div>
 
-          <!-- Submit button -->
-          <button type="submit">Save</button>
-        </form>
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary">Save</button>
+          </form>
+        </div>
       </main>
     </section>
   </body>
