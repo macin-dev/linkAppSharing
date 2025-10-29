@@ -26,4 +26,6 @@
   /* Orange */
   --orange-600-color: #ec7100;
   --orange-500-color: #eb4925;
+  /* Active state */
+  --purple-active-color: #efebff;
 }
