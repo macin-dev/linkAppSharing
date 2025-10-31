@@ -85,14 +85,28 @@ body {
 
 /* HEADER */
 /* Nav */
+.header {
+  background-color: var(--grey-50-color);
+}
+
 .nav {
+  background-color: var(--white-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 16px 16px 24px;
+  border-radius: 8px;
 }
 
 /* Buttons */
+.logo-small {
+  display: block;
+}
+
+.logo-large {
+  display: none;
+}
+
 .btn-header,
 .logo {
   border: none;
@@ -104,13 +118,10 @@ body {
   border-radius: 8px;
 }
 
-.header-img {
-  display: block;
-}
-
 .btn-preview {
+  color: var(--purple-600-color);
   cursor: pointer;
-  border: 1px solid var(--purple-600-color);
+  border: 1px solid currentColor;
   transition: all 0.2s;
 }
 
@@ -124,6 +135,13 @@ body {
   display: flex;
 }
 
+.tab-label {
+  display: none;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
 .tab {
   border: none;
   background-color: transparent;
@@ -132,8 +150,6 @@ body {
   padding: 16px 24px;
   border-radius: 8px;
   color: var(--grey-500-color);
-  font-weight: 600;
-  line-height: 1.5;
 }
 
 .tab:active,
@@ -168,15 +184,26 @@ body {
 /* RIGHT LAYOUT - ADD LINK */
 .app {
   background-color: var(--white-color);
-  padding: 24px 24px 16px 24px;
   border-radius: 12px;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  padding: 16px;
+}
+
+.app-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .app-title {
   font-size: 24px;
   font-weight: 700;
   line-height: 1.5;
-  margin-bottom: 8px;
   color: var(--grey-900-color);
 }
 
@@ -191,18 +218,15 @@ body {
   display: flex;
   flex-direction: column;
   gap: 24px;
-  padding-top: 40px;
 }
 
 /* APP States */
 /* Add link - Form */
-.form-add-link {
+.form-footer {
   display: flex;
   flex-direction: column;
-}
-
-.form-add-link button {
-  margin: 16px;
+  border-top: 1px solid var(--grey-200-color);
+  padding: 16px;
 }
 
 /* Add link - Empty state */
@@ -235,4 +259,82 @@ body {
   line-height: 1.5;
   color: var(--grey-500-color);
   text-align: center;
+}
+
+/* MEDIA QUERIES */
+/* Tablet: 768px */
+@media screen and (min-width: 768px) {
+  /* HEADER */
+  /* Nav */
+  .header {
+    padding: 24px;
+  }
+
+  .logo-small {
+    display: none;
+  }
+
+  .logo-large {
+    display: block;
+    height: 32px;
+  }
+
+  /* Buttons */
+  .btn-preview {
+    padding: 16px 24px;
+  }
+
+  /* Tabs */
+  .tab-img {
+    display: none;
+  }
+
+  .tab-label {
+    display: block;
+  }
+
+  /* SECTION CONTAINER */
+  .section-container {
+    padding: 0 24px 24px;
+  }
+
+  /* App */
+  .app-container {
+    padding: 40px;
+  }
+
+  .app-title {
+    font-size: 32px;
+  }
+
+  /* Add link - Empty state */
+  .add-link-empty {
+    padding: 70px 0 65px;
+  }
+
+  .add-link-empty img {
+    height: 160px;
+  }
+
+  .add-link-empty h2 {
+    font-size: 32px;
+    margin-bottom: 24px;
+  }
+
+  .add-link-hero {
+    max-width: 488px;
+    width: 100%;
+    margin: 0 auto;
+    gap: 0;
+  }
+
+  .add-link-hero img {
+    margin-bottom: 40px;
+  }
+
+  /* Form */
+  .form-footer {
+    align-items: flex-end;
+    padding: 24px 0 24px;
+  }
 }
