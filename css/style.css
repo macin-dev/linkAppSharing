@@ -192,7 +192,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  padding: 16px;
+  padding: 24px;
 }
 
 .app-header {
@@ -223,6 +223,88 @@ body {
 
 /* APP States */
 /* Add link - Form */
+.add-link-empty {
+  display: none;
+}
+
+/* Container */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+/* Header */
+.input-header {
+  display: flex;
+  justify-content: space-between;
+  color: var(--grey-500-color);
+  line-height: 1.5;
+  font-size: 16px;
+}
+
+.input-header-label {
+  display: flex;
+  gap: 8px;
+}
+
+.link-label {
+  font-weight: 700;
+}
+
+.link-remove {
+  background-color: transparent;
+  border: none;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* Inputs */
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: var(--grey-50-color);
+  border-radius: 12px;
+  padding: 16px;
+  color: var(--grey-900-color);
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: currentColor;
+}
+
+.input-control {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid var(--grey-200-color);
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 1.5;
+  overflow: hidden;
+}
+
+.input-control select,
+.input-control input {
+  background-color: transparent;
+  width: 100%;
+  border: none;
+  padding: 16px;
+  color: currentColor;
+}
+
+.input-label {
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Form footer */
 .form-footer {
   display: flex;
   flex-direction: column;
@@ -268,6 +350,14 @@ body {
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
+}
+
+.pl-16 {
+  padding-left: 16px;
+}
+
+.pr-16 {
+  padding-right: 16px;
 }
 
 /* MEDIA QUERIES */
