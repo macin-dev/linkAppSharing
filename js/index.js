@@ -5,6 +5,7 @@ import { logosArr } from "../js/data.js";
 const addLinkBtn = document.getElementById("add-link");
 const formContainer = document.querySelector(".form-container");
 const saveBtn = document.getElementById("save");
+const addLinkEmpty = document.querySelector(".add-link-empty");
 let linkNumber = 0;
 
 // Add Event Listeners
@@ -70,6 +71,7 @@ function renderNewLink() {
   inputContainer.innerHTML = addLinkTemplate;
 
   // Append a new child element
+  addLinkEmpty.style.display = "none";
   formContainer.appendChild(inputContainer);
 
   // Enable save button

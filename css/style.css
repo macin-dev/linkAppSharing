@@ -39,6 +39,8 @@ body {
   font-family: "Instrument Sans", sans-serif;
   font-weight: 400;
   background-color: var(--grey-50-color);
+  height: 100vh;
+  overflow-y: hidden;
 }
 
 /* 
@@ -175,6 +177,7 @@ body {
 .section-container {
   background-color: var(--grey-50-color);
   padding: 16px;
+  height: 100%;
 }
 
 /* LEFT LAYOUT - PHONE M0CKUP PREVIEW */
@@ -184,6 +187,8 @@ body {
 
 /* RIGHT LAYOUT - ADD LINK */
 .app {
+  overflow: auto;
+  height: calc(100% - 90px);
   background-color: var(--white-color);
   border-radius: 12px;
 }
@@ -223,10 +228,6 @@ body {
 
 /* APP States */
 /* Add link - Form */
-.add-link-empty {
-  display: none;
-}
-
 /* Container */
 .form-container {
   display: flex;
@@ -410,6 +411,10 @@ body {
   }
 
   /* App */
+  .app {
+    height: calc(100% - 138px);
+  }
+
   .app-container {
     padding: 40px;
   }
@@ -466,6 +471,7 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 12px;
+    height: calc(100% - 138px);
   }
 
   /* App */
