@@ -38,6 +38,7 @@ p {
 body {
   font-family: "Instrument Sans", sans-serif;
   font-weight: 400;
+  background-color: var(--grey-50-color);
 }
 
 /* 
@@ -177,7 +178,7 @@ body {
 }
 
 /* LEFT LAYOUT - PHONE M0CKUP PREVIEW */
-.hide-preview {
+.phone-mockup-preview {
   display: none;
 }
 
@@ -261,6 +262,14 @@ body {
   text-align: center;
 }
 
+/* Utilities */
+.container {
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
 /* MEDIA QUERIES */
 /* Tablet: 768px */
 @media screen and (min-width: 768px) {
@@ -336,5 +345,34 @@ body {
   .form-footer {
     align-items: flex-end;
     padding: 24px 0 24px;
+  }
+}
+
+/* Desktop: 1440px */
+@media screen and (min-width: 1440px) {
+  /* SECTION CONTAINER */
+  .section-container {
+    display: flex;
+    column-gap: 24px;
+  }
+
+  /* Phone Mockup */
+  .phone-mockup-preview {
+    background-color: var(--white-color);
+    flex-basis: 560px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+  }
+
+  /* App */
+  .app {
+    flex: 1 1 auto;
+  }
+
+  /* Form */
+  .form-footer {
+    padding: 24px 40px;
   }
 }
