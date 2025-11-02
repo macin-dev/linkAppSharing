@@ -282,12 +282,13 @@ body {
 .input-control {
   display: flex;
   align-items: center;
-  gap: 16px;
   border: 1px solid var(--grey-200-color);
   border-radius: 8px;
-  font-size: 16px;
-  line-height: 1.5;
   overflow: hidden;
+}
+
+.input-control select {
+  text-transform: capitalize;
 }
 
 .input-control select,
@@ -295,13 +296,24 @@ body {
   background-color: transparent;
   width: 100%;
   border: none;
-  padding: 16px;
+  padding: 16px 16px 16px 6px;
   color: currentColor;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
 .input-label {
   font-size: 12px;
   line-height: 1.5;
+}
+
+.platform-logo {
+  align-self: stretch;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 54px;
+  background-color: var(--grey-100-color);
 }
 
 /* Form footer */

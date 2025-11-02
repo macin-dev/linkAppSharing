@@ -1,13 +1,17 @@
+// Imports
+import { logosArr } from "../js/data.js";
+
 // VARIABLES
 const addLinkBtn = document.getElementById("add-link");
 const formContainer = document.querySelector(".form-container");
+const saveBtn = document.getElementById("save");
 let linkNumber = 0;
 
 // Add Event Listeners
 addLinkBtn.addEventListener("click", renderNewLink);
 
+// Render a new link element into the DOM
 function renderNewLink() {
-  // Add a new add link container into the DOM
   // Increment Link #
   linkNumber += 1;
 
@@ -27,24 +31,25 @@ function renderNewLink() {
     </div>
 
     <div class="input-group">
-    <label for="platform" class="input-label">Platform</label>
-    <div class="input-control pl-16 pr-16">
-        <span class="platform-logo">
+    <label for="input-platform-${linkNumber}" class="input-label">Platform</label>
+    <div class="input-control pr-16">
+        <span class="platform-logo platform-logo-container-${linkNumber}">
         <img
-            src="/assets/images/icon-github.svg"
-            alt="icon of github platform"
+            src="/assets/images/icon-codepen.svg"
+            alt="icon of codepen platform"
         />
         </span>
-        <select name="platform" id="platform">
-        <option value="github">GitHub</option>
-        <option value="linkedln">Linkedln</option>
+        <select name="platform" id="input-platform-${linkNumber}">
+            ${logosArr.map(function (iconName) {
+              return `<option value="${iconName}">${iconName}</option>`;
+            })}
         </select>
     </div>
     </div>
 
     <div class="input-group">
     <label for="link" class="input-label">Link</label>
-    <div class="input-control pl-16">
+    <div class="input-control">
         <span class="platform-logo">
         <img src="/assets/images/icon-link.svg" alt="" />
         </span>
@@ -52,6 +57,7 @@ function renderNewLink() {
         type="text"
         name="link"
         id="link"
+        class="pl-16"
         placeholder="e.g. https://www.github.com/johnappleseed"
         />
     </div>
@@ -65,4 +71,22 @@ function renderNewLink() {
 
   // Append a new child element
   formContainer.appendChild(inputContainer);
+
+  // Enable save button
+  saveBtn.disabled = false;
+
+  // Event Listener
+  const inputSelect = document.getElementById(`input-platform-${linkNumber}`);
+  inputSelect.addEventListener("change", renderIcon);
+}
+
+// Render the matched icon based on the selecting dropdown
+function renderIcon(e) {
+  const iconName = e.target.value;
+  const idString = e.target.id;
+  const idNumber = Number(idString[idString.length - 1]);
+
+  document.querySelector(
+    `.platform-logo-container-${idNumber}`
+  ).innerHTML = `<img src="/assets/images/icon-${iconName}.svg" alt="${iconName} icon">`;
 }
