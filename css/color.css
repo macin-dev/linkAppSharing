@@ -28,4 +28,8 @@
   --orange-500-color: #eb4925;
   /* Active state */
   --purple-active-color: #efebff;
+  /* Custom */
+  --twitter-color: #43b7e9;
+  --facebook-color: #2442ac;
+  --twitch-color: #ee3fc8;
 }

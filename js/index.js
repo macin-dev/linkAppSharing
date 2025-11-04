@@ -6,6 +6,8 @@ const addLinkBtn = document.getElementById("add-link");
 const formContainer = document.querySelector(".form-container");
 const saveBtn = document.getElementById("save");
 const addLinkEmpty = document.querySelector(".add-link-empty");
+const linkShapes = document.getElementsByClassName("link-item-container");
+const linksContainer = document.querySelector(".links-lists");
 let linkNumber = 0;
 
 // Add Event Listeners
@@ -41,8 +43,8 @@ function renderNewLink() {
         />
         </span>
         <select name="platform" id="input-platform-${linkNumber}">
-            ${logosArr.map(function (iconName) {
-              return `<option value="${iconName}">${iconName}</option>`;
+            ${logosArr.map(function (logo) {
+              return `<option value="${logo.value}">${logo.name}</option>`;
             })}
         </select>
     </div>
@@ -79,16 +81,75 @@ function renderNewLink() {
 
   // Event Listener
   const inputSelect = document.getElementById(`input-platform-${linkNumber}`);
-  inputSelect.addEventListener("change", renderIcon);
+  inputSelect.addEventListener("change", function (e) {
+    const { value, id } = e.target;
+    const linkId = Number(id[id.length - 1]);
+    renderIcon(value, id);
+    renderLinkUser(value, linkId - 1);
+  });
+
+  // Display link to the mockup phone
+  displayMockupShape(linkNumber - 1);
 }
 
 // Render the matched icon based on the selecting dropdown
-function renderIcon(e) {
-  const iconName = e.target.value;
-  const idString = e.target.id;
-  const idNumber = Number(idString[idString.length - 1]);
+function renderIcon(iconName, idLink) {
+  const idNumber = Number(idLink[idLink.length - 1]);
 
   document.querySelector(
     `.platform-logo-container-${idNumber}`
   ).innerHTML = `<img src="/assets/images/icon-${iconName}.svg" alt="${iconName} icon">`;
+}
+
+// Render links on the mockup phone
+function displayMockupShape(index) {
+  if (index < linkShapes.length) {
+    linkShapes[index].innerHTML = `
+    <img src="/assets/images/icon-github-white.svg" alt="github icon">
+    <span class="link-item-name">github</span>
+    <img src="/assets/images/icon-arrow-right.svg" alt="arrow right icon" class="link-arrow-right">
+  `;
+    linkShapes[index].classList.remove("shape-element");
+    linkShapes[index].classList.add("link-item__active");
+  } else {
+    const liEl = document.createElement("li");
+    const divEl = document.createElement("div");
+    liEl.classList.add("link-item");
+    divEl.classList.add("link-item-container", "link-item__active");
+    divEl.innerHTML = `
+      <img src="/assets/images/icon-github-white.svg" alt="github icon">
+      <span class="link-item-name">github</span>
+      <img src="/assets/images/icon-arrow-right.svg" alt="arrow right icon" class="link-arrow-right">
+    `;
+
+    liEl.appendChild(divEl);
+    linksContainer.appendChild(liEl);
+  }
+}
+
+function renderLinkUser(value, id) {
+  const linkData = logosArr
+    .filter(function (link) {
+      return link.value === value;
+    })
+    .at(0);
+
+  removeLinksClass(id);
+
+  linkShapes[id].classList.add(linkData.className);
+  linkShapes[id].children[0].src = linkData.path;
+  linkShapes[id].children[1].textContent = linkData.name;
+}
+
+// Remove the last links' classes
+function removeLinksClass(id) {
+  const lastClassValue = linkShapes[id].classList.length;
+
+  for (let link of logosArr) {
+    if (link.className === linkShapes[id].classList[lastClassValue - 1]) {
+      linkShapes[id].classList.remove(
+        linkShapes[id].classList[lastClassValue - 1]
+      );
+    }
+  }
 }

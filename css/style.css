@@ -373,6 +373,57 @@ body {
   padding-right: 16px;
 }
 
+/* Links badges  */
+.badge-youtube {
+  background-color: var(--red-550-color) !important;
+}
+
+.badge-github {
+  background-color: var(--grey-950-color) !important;
+}
+
+.badge-frontend {
+  background-color: var(--white-color) !important;
+  color: var(--grey-900-color) !important;
+  border: 1px solid var(--grey-200-color);
+}
+
+.badge-twitter {
+  background-color: var(--twitter-color) !important;
+}
+
+.badge-linkedin {
+  background-color: var(--blue-500-color) !important;
+}
+
+.badge-facebook {
+  background-color: var(--facebook-color) !important;
+}
+
+.badge-twitch {
+  background-color: var(--twitch-color) !important;
+}
+
+.badge-dev {
+  background-color: var(--grey-900-color) !important;
+}
+
+.badge-codewars {
+  background-color: var(--pink-900-color) !important;
+}
+
+.badge-freecodecamp {
+  background-color: var(--purple-950-color) !important;
+}
+
+.badge-gitlab {
+  background-color: var(--orange-500-color) !important;
+}
+
+.badge-hashnode {
+  background-color: var(--blue-800-color) !important;
+}
+
 /* MEDIA QUERIES */
 /* Tablet: 768px */
 @media screen and (min-width: 768px) {
@@ -597,8 +648,18 @@ body {
     border-radius: 8px;
   }
 
+  .link-item__active {
+    background-color: var(--grey-900-color);
+    color: var(--white-color);
+  }
+
   .link-item-name {
     font-size: 12px;
     line-height: 1.5;
+    text-transform: capitalize;
+  }
+
+  .link-arrow-right {
+    margin-left: auto;
   }
 }
