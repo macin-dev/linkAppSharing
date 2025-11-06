@@ -373,6 +373,17 @@ body {
   padding-right: 16px;
 }
 
+.form-control__invalid {
+  border: 1px solid var(--red-500-color);
+}
+
+.form-error-message {
+  font-size: 12px;
+  align-self: end;
+  line-height: 1.5;
+  color: var(--red-500-color);
+}
+
 /* Links badges  */
 .badge-youtube {
   background-color: var(--red-550-color) !important;

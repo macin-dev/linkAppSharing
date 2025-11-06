@@ -8,10 +8,15 @@ const saveBtn = document.getElementById("save");
 const addLinkEmpty = document.querySelector(".add-link-empty");
 const linkShapes = document.getElementsByClassName("link-item-container");
 const linksContainer = document.querySelector(".links-lists");
+const formEl = document.querySelector(".form-add-link");
+const urlRegex =
+  /^(?:https?:\/\/)?(?:www\.)?(?:(?:github|gitlab)\.com\/[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}|dev\.to\/[A-Za-z0-9_\-]+|codewars\.com\/users\/[A-Za-z0-9_\-]+|hashnode\.com\/@?[A-Za-z0-9_\-]+|youtube\.com\/(?:@|user\/|c\/)[A-Za-z0-9_\-]+|freecodecamp\.org\/(?:news\/author\/)?[A-Za-z0-9_\-]+|frontendmentor\.io\/(?:profile|users)\/[A-Za-z0-9_\-]+|facebook\.com\/(?:profile\.php\?id=\d+|[A-Za-z0-9\.\-_]+)|linkedin\.com\/in\/[A-Za-z0-9\-]+|(?:twitter\.com|x\.com)\/[A-Za-z0-9_]{1,15}|twitch\.tv\/[A-Za-z0-9_]{4,25})(?:\/.*)?$/i;
+
 let linkNumber = 0;
 
 // Add Event Listeners
 addLinkBtn.addEventListener("click", renderNewLink);
+formEl.addEventListener("submit", validateFormData);
 
 // Render a new link element into the DOM
 function renderNewLink() {
@@ -51,7 +56,7 @@ function renderNewLink() {
     </div>
 
     <div class="input-group">
-    <label for="link" class="input-label">Link</label>
+    <label for="link-${linkNumber}" class="input-label">Link</label>
     <div class="input-control">
         <span class="platform-logo">
         <img src="/assets/images/icon-link.svg" alt="" />
@@ -59,8 +64,8 @@ function renderNewLink() {
         <input
         type="text"
         name="link"
-        id="link"
-        class="pl-16"
+        id="link-${linkNumber}"
+        class="pl-16 input-el"
         placeholder="e.g. https://www.github.com/johnappleseed"
         />
     </div>
@@ -86,6 +91,19 @@ function renderNewLink() {
     const linkId = Number(id[id.length - 1]);
     renderIcon(value, id);
     renderLinkUser(value, linkId - 1);
+  });
+
+  const linkInput = document.getElementById(`link-${linkNumber}`);
+  linkInput.addEventListener("input", function (e) {
+    const linkInputContainer = linkInput.parentElement;
+
+    // Add the required styling to hint the user
+    // something's wrong with the format
+    if (urlRegex.test(e.target.value)) {
+      linkInputContainer.classList.remove("form-control__invalid");
+    } else {
+      linkInputContainer.classList.add("form-control__invalid");
+    }
   });
 
   // Display link to the mockup phone
@@ -152,4 +170,55 @@ function removeLinksClass(id) {
       );
     }
   }
+}
+
+// Validate user's entered data either is empty
+// or does not match the correct URL pattern
+function validateFormData(e) {
+  // Reference all input elements with the given class name
+  const linkInputs = document.getElementsByClassName("input-el");
+  const errorMessage = {
+    empty: "Can't be empty",
+    url: "Please check the URL",
+  };
+
+  // If no inputs yet, return anything
+  if (linkInputs.length === 0) {
+    return;
+  }
+
+  // Loop over each input in the linkInputs array
+  // and validate if each matches the required data
+  for (let i = 0; i < linkInputs.length; i++) {
+    const errorMessageEL = document.querySelector(`.error-message-${i + 1}`);
+    const currentEl = linkInputs[i];
+    // Check whether the input is empty or does
+    // not match the given url against the regex pattern
+    if (currentEl.value.length === 0) {
+      if (!errorMessageEL) {
+        createErrorMessageEl(i, errorMessage.empty, currentEl);
+      } else {
+        errorMessageEL.textContent = errorMessage.empty;
+      }
+    } else if (!urlRegex.test(currentEl.value)) {
+      if (!errorMessageEL) {
+        createErrorMessageEl(i, errorMessage.url, currentEl);
+      } else {
+        errorMessageEL.textContent = errorMessage.url;
+      }
+    } else if (errorMessageEL) {
+      currentEl.parentElement.parentElement.removeChild(errorMessageEL);
+    }
+  }
+
+  e.preventDefault();
+}
+
+// Create and render an error message element into the DOM
+function createErrorMessageEl(i, message, nodeEl) {
+  const span = document.createElement("span");
+  span.classList.add("form-error-message", `error-message-${i + 1}`);
+  span.textContent = message;
+
+  nodeEl.parentElement.parentElement.appendChild(span);
 }
