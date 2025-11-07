@@ -57,7 +57,7 @@ function renderNewLink() {
 
     <div class="input-group">
     <label for="link-${linkNumber}" class="input-label">Link</label>
-    <div class="input-control">
+    <div class="input-control pr-16">
         <span class="platform-logo">
         <img src="/assets/images/icon-link.svg" alt="" />
         </span>
@@ -191,23 +191,16 @@ function validateFormData(e) {
   // and validate if each matches the required data
   for (let i = 0; i < linkInputs.length; i++) {
     const errorMessageEL = document.querySelector(`.error-message-${i + 1}`);
+
     const currentEl = linkInputs[i];
     // Check whether the input is empty or does
     // not match the given url against the regex pattern
     if (currentEl.value.length === 0) {
-      if (!errorMessageEL) {
-        createErrorMessageEl(i, errorMessage.empty, currentEl);
-      } else {
-        errorMessageEL.textContent = errorMessage.empty;
-      }
+      createErrorMessageEl(i, errorMessage.empty, currentEl, errorMessageEL);
     } else if (!urlRegex.test(currentEl.value)) {
-      if (!errorMessageEL) {
-        createErrorMessageEl(i, errorMessage.url, currentEl);
-      } else {
-        errorMessageEL.textContent = errorMessage.url;
-      }
+      createErrorMessageEl(i, errorMessage.url, currentEl, errorMessageEL);
     } else if (errorMessageEL) {
-      currentEl.parentElement.parentElement.removeChild(errorMessageEL);
+      errorMessageEL.parentElement.removeChild(errorMessageEL);
     }
   }
 
@@ -215,10 +208,20 @@ function validateFormData(e) {
 }
 
 // Create and render an error message element into the DOM
-function createErrorMessageEl(i, message, nodeEl) {
+function createErrorMessageEl(i, message, nodeEl, messageEl) {
+  const tabletDimension = 768;
+  // Remove child element if it already exists in the DOM
+  if (messageEl) {
+    messageEl.parentElement.removeChild(messageEl);
+  }
+
   const span = document.createElement("span");
   span.classList.add("form-error-message", `error-message-${i + 1}`);
   span.textContent = message;
 
-  nodeEl.parentElement.parentElement.appendChild(span);
+  if (window.innerWidth >= tabletDimension) {
+    nodeEl.parentElement.appendChild(span);
+  } else {
+    nodeEl.parentElement.parentElement.appendChild(span);
+  }
 }

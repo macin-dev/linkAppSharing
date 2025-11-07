@@ -280,6 +280,10 @@ body {
   color: currentColor;
 }
 
+.input-control + .form-error-message {
+  align-self: flex-end;
+}
+
 .input-control {
   display: flex;
   align-items: center;
@@ -379,9 +383,9 @@ body {
 
 .form-error-message {
   font-size: 12px;
-  align-self: end;
   line-height: 1.5;
   color: var(--red-500-color);
+  flex-shrink: 0;
 }
 
 /* Links badges  */
