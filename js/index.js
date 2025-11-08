@@ -20,6 +20,9 @@ const firstNameEl = document.querySelector(".first-name");
 const lastNameEl = document.querySelector(".last-name");
 const emailEl = document.querySelector(".preview-email");
 const emailInput = document.getElementById("email");
+const tabsBtn = document.getElementsByClassName("tab");
+const linkSection = document.querySelector(".app-links");
+const profileSection = document.querySelector(".app-profile");
 
 const urlRegex =
   /^(?:https?:\/\/)?(?:www\.)?(?:(?:github|gitlab)\.com\/[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}|dev\.to\/[A-Za-z0-9_\-]+|codewars\.com\/users\/[A-Za-z0-9_\-]+|hashnode\.com\/@?[A-Za-z0-9_\-]+|youtube\.com\/(?:@|user\/|c\/)[A-Za-z0-9_\-]+|freecodecamp\.org\/(?:news\/author\/)?[A-Za-z0-9_\-]+|frontendmentor\.io\/(?:profile|users)\/[A-Za-z0-9_\-]+|facebook\.com\/(?:profile\.php\?id=\d+|[A-Za-z0-9\.\-_]+)|linkedin\.com\/in\/[A-Za-z0-9\-]+|(?:twitter\.com|x\.com)\/[A-Za-z0-9_]{1,15}|twitch\.tv\/[A-Za-z0-9_]{4,25})(?:\/.*)?$/i;
@@ -38,6 +41,22 @@ userLastName.addEventListener("input", function (e) {
 });
 emailInput.addEventListener("input", function (e) {
   renderUserInfo(e.target.value, emailEl);
+});
+tabsBtn[0].addEventListener("click", function () {
+  profileSection.classList.remove("display-block");
+  linkSection.classList.remove("display-none");
+  linkSection.classList.add("display-block");
+
+  tabsBtn[1].classList.remove("tab-active");
+  tabsBtn[0].classList.add("tab-active");
+});
+tabsBtn[1].addEventListener("click", function () {
+  linkSection.classList.remove("display-block");
+  profileSection.classList.remove("display-none");
+  profileSection.classList.add("display-block");
+
+  tabsBtn[0].classList.remove("tab-active");
+  tabsBtn[1].classList.add("tab-active");
 });
 
 // Render a new link element into the DOM

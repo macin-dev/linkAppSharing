@@ -193,6 +193,10 @@ body {
   border-radius: 12px;
 }
 
+.app-links {
+  display: none;
+}
+
 .app-container {
   display: flex;
   flex-direction: column;
@@ -362,11 +366,8 @@ body {
 }
 
 /* PROFILE SECTION */
-.app-links {
-  display: none;
-}
-
 .app-profile {
+  display: none;
   padding: 24px;
   border-radius: 12px;
 }
@@ -517,6 +518,14 @@ body {
 
 .pr-16 {
   padding-right: 16px;
+}
+
+.display-block {
+  display: block !important;
+}
+
+.display-none {
+  display: none !important;
 }
 
 .form-control__invalid {
