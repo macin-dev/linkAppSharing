@@ -445,20 +445,29 @@ body {
   height: 150px;
 }
 
+.load-bg-image {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  background-blend-mode: multiply;
+}
+
 .upload-image {
+  color: var(--purple-600-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
 }
 
-.upload-image img {
+.upload-image svg {
   width: 40px;
   height: 40px;
 }
 
 .upload-image span {
-  color: var(--purple-600-color);
+  color: inherit;
   font-size: 16px;
   font-weight: 600;
   line-height: 1.5;

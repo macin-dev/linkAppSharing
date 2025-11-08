@@ -9,6 +9,9 @@ const addLinkEmpty = document.querySelector(".add-link-empty");
 const linkShapes = document.getElementsByClassName("link-item-container");
 const linksContainer = document.querySelector(".links-lists");
 const formEl = document.querySelector(".form-add-link");
+const inputFileEl = document.getElementById("uploadAvatar");
+const loadAvatarEL = document.querySelector(".user-upload-avatar");
+const uploadImageHintEl = document.querySelector(".upload-image");
 const urlRegex =
   /^(?:https?:\/\/)?(?:www\.)?(?:(?:github|gitlab)\.com\/[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}|dev\.to\/[A-Za-z0-9_\-]+|codewars\.com\/users\/[A-Za-z0-9_\-]+|hashnode\.com\/@?[A-Za-z0-9_\-]+|youtube\.com\/(?:@|user\/|c\/)[A-Za-z0-9_\-]+|freecodecamp\.org\/(?:news\/author\/)?[A-Za-z0-9_\-]+|frontendmentor\.io\/(?:profile|users)\/[A-Za-z0-9_\-]+|facebook\.com\/(?:profile\.php\?id=\d+|[A-Za-z0-9\.\-_]+)|linkedin\.com\/in\/[A-Za-z0-9\-]+|(?:twitter\.com|x\.com)\/[A-Za-z0-9_]{1,15}|twitch\.tv\/[A-Za-z0-9_]{4,25})(?:\/.*)?$/i;
 
@@ -17,6 +20,7 @@ let linkNumber = 0;
 // Add Event Listeners
 addLinkBtn.addEventListener("click", renderNewLink);
 formEl.addEventListener("submit", validateFormData);
+inputFileEl.addEventListener("change", loadPreviewImage);
 
 // Render a new link element into the DOM
 function renderNewLink() {
@@ -224,4 +228,11 @@ function createErrorMessageEl(i, message, nodeEl, messageEl) {
   } else {
     nodeEl.parentElement.parentElement.appendChild(span);
   }
+}
+
+function loadPreviewImage() {
+  const fetchImgUrl = URL.createObjectURL(inputFileEl.files[0]);
+  loadAvatarEL.classList.add("load-bg-image");
+  loadAvatarEL.style.backgroundImage = `url(${fetchImgUrl})`;
+  uploadImageHintEl.style.color = "#fff";
 }
