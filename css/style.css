@@ -809,13 +809,25 @@ body {
     gap: 13px;
   }
 
+  .shape__default {
+    height: 16px;
+    background-color: var(--grey-100-color);
+  }
+
+  .shape__active {
+    width: initial !important;
+    height: initial !important;
+    background-color: transparent;
+  }
+
   .profile-username {
     margin: 0;
     font-size: 18px;
     color: var(--grey-900-color);
     width: 160px;
-    height: 16px;
     border-radius: 100px;
+    text-transform: capitalize;
+    font-weight: 600;
   }
 
   .profile-email {

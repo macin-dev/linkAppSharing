@@ -12,6 +12,15 @@ const formEl = document.querySelector(".form-add-link");
 const inputFileEl = document.getElementById("uploadAvatar");
 const loadAvatarEL = document.querySelector(".user-upload-avatar");
 const uploadImageHintEl = document.querySelector(".upload-image");
+const avatarShape = document.querySelector(".profile-picture");
+const userFirstName = document.getElementById("firstName");
+const userLastName = document.getElementById("lastName");
+const userNameShape = document.querySelector(".profile-username");
+const firstNameEl = document.querySelector(".first-name");
+const lastNameEl = document.querySelector(".last-name");
+const emailEl = document.querySelector(".preview-email");
+const emailInput = document.getElementById("email");
+
 const urlRegex =
   /^(?:https?:\/\/)?(?:www\.)?(?:(?:github|gitlab)\.com\/[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}|dev\.to\/[A-Za-z0-9_\-]+|codewars\.com\/users\/[A-Za-z0-9_\-]+|hashnode\.com\/@?[A-Za-z0-9_\-]+|youtube\.com\/(?:@|user\/|c\/)[A-Za-z0-9_\-]+|freecodecamp\.org\/(?:news\/author\/)?[A-Za-z0-9_\-]+|frontendmentor\.io\/(?:profile|users)\/[A-Za-z0-9_\-]+|facebook\.com\/(?:profile\.php\?id=\d+|[A-Za-z0-9\.\-_]+)|linkedin\.com\/in\/[A-Za-z0-9\-]+|(?:twitter\.com|x\.com)\/[A-Za-z0-9_]{1,15}|twitch\.tv\/[A-Za-z0-9_]{4,25})(?:\/.*)?$/i;
 
@@ -21,6 +30,15 @@ let linkNumber = 0;
 addLinkBtn.addEventListener("click", renderNewLink);
 formEl.addEventListener("submit", validateFormData);
 inputFileEl.addEventListener("change", loadPreviewImage);
+userFirstName.addEventListener("input", function (e) {
+  renderUserInfo(e.target.value, firstNameEl);
+});
+userLastName.addEventListener("input", function (e) {
+  renderUserInfo(e.target.value, lastNameEl);
+});
+emailInput.addEventListener("input", function (e) {
+  renderUserInfo(e.target.value, emailEl);
+});
 
 // Render a new link element into the DOM
 function renderNewLink() {
@@ -235,4 +253,40 @@ function loadPreviewImage() {
   loadAvatarEL.classList.add("load-bg-image");
   loadAvatarEL.style.backgroundImage = `url(${fetchImgUrl})`;
   uploadImageHintEl.style.color = "#fff";
+
+  // Load image within the mockup phone
+  avatarShape.innerHTML = `<img src="${fetchImgUrl}" alt="user's avatar" >`;
+}
+
+function renderUserInfo(text, element) {
+  element.textContent = text;
+  let toggleClasses = false;
+
+  switch (element.classList[0]) {
+    case "first-name":
+    case "last-name":
+      if (firstNameEl.textContent || lastNameEl.textContent) {
+        toggleClasses = true;
+      } else {
+        toggleClasses = false;
+      }
+      break;
+    case "preview-email":
+      if (emailEl.textContent) {
+        toggleClasses = true;
+      } else {
+        toggleClasses = false;
+      }
+      break;
+    default:
+      return;
+  }
+
+  if (toggleClasses) {
+    element.parentElement.classList.remove("shape__default");
+    element.parentElement.classList.add("shape__active");
+  } else {
+    element.parentElement.classList.remove("shape__active");
+    element.parentElement.classList.add("shape__default");
+  }
 }
