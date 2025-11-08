@@ -149,54 +149,128 @@
 
       <!-- User interaction -->
       <main class="app">
-        <!-- App container -->
-        <div class="app-container">
-          <!-- Header -->
-          <div class="app-header">
-            <h1 class="app-title">Customize your links</h1>
-            <p class="app-text">
-              Add/edit/remove links below and then share all your profiles with
-              the world!
-            </p>
-          </div>
+        <!-- Links section-->
+        <section class="app-links">
+          <!-- App container -->
+          <div class="app-container">
+            <!-- Header -->
+            <div class="app-header">
+              <h1 class="app-title">Customize your links</h1>
+              <p class="app-text">
+                Add/edit/remove links below and then share all your profiles
+                with the world!
+              </p>
+            </div>
 
-          <!-- Add link container -->
-          <div class="add-link-container">
-            <!-- Toggle button -->
-            <button type="button" class="btn btn-secondary" id="add-link">
-              &plus; Add new link
-            </button>
+            <!-- Add link container -->
+            <div class="add-link-container">
+              <!-- Toggle button -->
+              <button type="button" class="btn btn-secondary" id="add-link">
+                &plus; Add new link
+              </button>
 
-            <!-- Default state - empty -->
-            <div class="add-link-empty">
-              <article class="add-link-hero">
-                <img
-                  src="/assets/images/illustration-empty.svg"
-                  alt="an illustration showing a hand touching a phone screen"
-                />
-                <h2>Let’s get you started</h2>
-                <p>
-                  Use the “Add new link” button to get started. Once you have
-                  more than one link, you can reorder and edit them. We’re here
-                  to help you share your profiles with everyone!
-                </p>
-              </article>
+              <!-- Default state - empty -->
+              <div class="add-link-empty">
+                <article class="add-link-hero">
+                  <img
+                    src="/assets/images/illustration-empty.svg"
+                    alt="an illustration showing a hand touching a phone screen"
+                  />
+                  <h2>Let’s get you started</h2>
+                  <p>
+                    Use the “Add new link” button to get started. Once you have
+                    more than one link, you can reorder and edit them. We’re
+                    here to help you share your profiles with everyone!
+                  </p>
+                </article>
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Interactive form -->
-        <form class="form-add-link">
-          <!-- Dynamic content here -->
-          <div class="form-container"></div>
+          <!-- Interactive form -->
+          <form class="form-add-link">
+            <!-- Dynamic content here -->
+            <div class="form-container"></div>
 
-          <!-- Submit button -->
-          <div class="form-footer">
-            <button type="submit" class="btn btn-primary" id="save" disabled>
-              Save
-            </button>
+            <!-- Submit button -->
+            <div class="form-footer">
+              <button type="submit" class="btn btn-primary" id="save" disabled>
+                Save
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Profile section-->
+        <section class="app-profile">
+          <div class="profile-header">
+            <h2>Profile Details</h2>
+            <p>Add your details to create a personal touch to your profile.</p>
           </div>
-        </form>
+
+          <div class="profile-body">
+            <form class="profile-form">
+              <div class="profile-upload">
+                <span>Profile picture</span>
+
+                <div class="upload-container">
+                  <label for="uploadAvatar" class="user-upload-avatar">
+                    <input type="file" id="uploadAvatar" />
+
+                    <div class="upload-image">
+                      <img
+                        src="/assets/images/icon-upload-image.svg"
+                        alt="upload image icon"
+                      />
+                      <span>&plus; Upload Image</span>
+                    </div>
+                  </label>
+
+                  <span class="image-constraint"
+                    >Image must be below 1024x1024px. Use PNG or JPG
+                    format.</span
+                  >
+                </div>
+              </div>
+
+              <div class="user-info">
+                <div class="input-control-2">
+                  <label for="firstName">First name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    id="firstName"
+                    placeholder="Macin"
+                  />
+                </div>
+
+                <div class="input-control-2">
+                  <label for="lastName">Last name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    id="lastName"
+                    placeholder="dev"
+                  />
+                </div>
+
+                <div class="input-control-2">
+                  <label for="email">Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="macin@exmaple.com"
+                  />
+                </div>
+              </div>
+
+              <div class="form-footer">
+                <button class="btn btn-primary">Save</button>
+              </div>
+            </form>
+          </div>
+        </section>
       </main>
     </section>
 
