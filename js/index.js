@@ -23,6 +23,8 @@ const emailInput = document.getElementById("email");
 const tabsBtn = document.getElementsByClassName("tab");
 const linkSection = document.querySelector(".app-links");
 const profileSection = document.querySelector(".app-profile");
+const userInfoForm = document.querySelector(".profile-form");
+const userInfoInputs = document.querySelectorAll(".input-group-2 input");
 
 const urlRegex =
   /^(?:https?:\/\/)?(?:www\.)?(?:(?:github|gitlab)\.com\/[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}|dev\.to\/[A-Za-z0-9_\-]+|codewars\.com\/users\/[A-Za-z0-9_\-]+|hashnode\.com\/@?[A-Za-z0-9_\-]+|youtube\.com\/(?:@|user\/|c\/)[A-Za-z0-9_\-]+|freecodecamp\.org\/(?:news\/author\/)?[A-Za-z0-9_\-]+|frontendmentor\.io\/(?:profile|users)\/[A-Za-z0-9_\-]+|facebook\.com\/(?:profile\.php\?id=\d+|[A-Za-z0-9\.\-_]+)|linkedin\.com\/in\/[A-Za-z0-9\-]+|(?:twitter\.com|x\.com)\/[A-Za-z0-9_]{1,15}|twitch\.tv\/[A-Za-z0-9_]{4,25})(?:\/.*)?$/i;
@@ -32,6 +34,7 @@ let linkNumber = 0;
 // Add Event Listeners
 addLinkBtn.addEventListener("click", renderNewLink);
 formEl.addEventListener("submit", validateFormData);
+userInfoForm.addEventListener("submit", validateUserInfo);
 inputFileEl.addEventListener("change", loadPreviewImage);
 userFirstName.addEventListener("input", function (e) {
   renderUserInfo(e.target.value, firstNameEl);
@@ -308,4 +311,25 @@ function renderUserInfo(text, element) {
     element.parentElement.classList.remove("shape__active");
     element.parentElement.classList.add("shape__default");
   }
+}
+
+function validateUserInfo(e) {
+  for (let i = 0; i < userInfoInputs.length; i++) {
+    const errorMessageEL = document.querySelector(
+      `.input-group-2 .error-message-${i + 1}`
+    );
+
+    if (userInfoInputs[i].value.length === 0) {
+      createErrorMessageEl(
+        i,
+        "Cant't be empty",
+        userInfoInputs[i],
+        errorMessageEL
+      );
+    } else if (errorMessageEL) {
+      errorMessageEL.parentElement.removeChild(errorMessageEL);
+    }
+  }
+
+  e.preventDefault();
 }

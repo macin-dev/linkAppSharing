@@ -486,13 +486,20 @@ body {
   gap: 8px;
 }
 
-.input-control-2 label {
+.input-group-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--grey-900-color);
+}
+
+.input-group-2 label {
   color: var(--grey-500-color);
   font-size: 12px;
   line-height: 1.5;
 }
 
-.input-control-2 label::after {
+.input-group-2 label::after {
   content: "*";
 }
 
@@ -706,20 +713,26 @@ body {
     margin-bottom: 40px;
   }
 
-  .input-control-2 {
+  .input-group-2 {
     flex-direction: row;
     align-items: center;
-    gap: 16px;
+    flex-wrap: wrap;
+    column-gap: 16px;
   }
 
-  .input-control-2 label {
+  .input-group-2 label {
     flex-grow: 1;
     font-size: 16px;
   }
 
-  .input-control-2 input {
+  .input-group-2 .input-control {
     flex-shrink: 0;
     flex-basis: 337px;
+  }
+
+  .input-group-2 .input-control + .form-error-message {
+    width: 100%;
+    text-align: end;
   }
 }
 
@@ -897,7 +910,7 @@ body {
     flex-basis: 424px;
   }
 
-  .input-control-2 input {
+  .input-group-2 .input-control {
     flex-basis: 424px;
   }
 }
