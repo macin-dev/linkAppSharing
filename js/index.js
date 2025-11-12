@@ -84,7 +84,7 @@ function renderNewLink() {
 
     <div class="input-group">
     <label for="input-platform-${linkNumber}" class="input-label">Platform</label>
-    <div class="input-control pr-16">
+    <div class="input-control">
         <span class="platform-logo platform-logo-container-${linkNumber}">
         <img
             src="/assets/images/icon-codepen.svg"
@@ -96,12 +96,15 @@ function renderNewLink() {
               return `<option value="${logo.value}">${logo.name}</option>`;
             })}
         </select>
+
+        <img src="/assets/images/arrow-down.svg" alt="arrow down icon" class="select-arrow-icon" >
     </div>
     </div>
 
     <div class="input-group">
     <label for="link-${linkNumber}" class="input-label">Link</label>
-    <div class="input-control pr-16">
+    <div class="input-info-wrapper">
+    <div class="input-control">
         <span class="platform-logo">
         <img src="/assets/images/icon-link.svg" alt="" />
         </span>
@@ -109,9 +112,10 @@ function renderNewLink() {
         type="text"
         name="link"
         id="link-${linkNumber}"
-        class="pl-16 input-el"
+        class="input-el"
         placeholder="e.g. https://www.github.com/johnappleseed"
         />
+    </div>
     </div>
     </div>
     `;
@@ -135,19 +139,6 @@ function renderNewLink() {
     const linkId = Number(id[id.length - 1]);
     renderIcon(value, id);
     renderLinkUser(value, linkId - 1);
-  });
-
-  const linkInput = document.getElementById(`link-${linkNumber}`);
-  linkInput.addEventListener("input", function (e) {
-    const linkInputContainer = linkInput.parentElement;
-
-    // Add the required styling to hint the user
-    // something's wrong with the format
-    if (urlRegex.test(e.target.value)) {
-      linkInputContainer.classList.remove("form-control__invalid");
-    } else {
-      linkInputContainer.classList.add("form-control__invalid");
-    }
   });
 
   // Display link to the mockup phone
@@ -241,10 +232,13 @@ function validateFormData(e) {
     // not match the given url against the regex pattern
     if (currentEl.value.length === 0) {
       createErrorMessageEl(i, errorMessage.empty, currentEl, errorMessageEL);
+      currentEl.classList.add("form-control__invalid");
     } else if (!urlRegex.test(currentEl.value)) {
       createErrorMessageEl(i, errorMessage.url, currentEl, errorMessageEL);
+      currentEl.classList.add("form-control__invalid");
     } else if (errorMessageEL) {
       errorMessageEL.parentElement.removeChild(errorMessageEL);
+      currentEl.classList.remove("form-control__invalid");
     }
   }
 
@@ -253,7 +247,6 @@ function validateFormData(e) {
 
 // Create and render an error message element into the DOM
 function createErrorMessageEl(i, message, nodeEl, messageEl) {
-  const tabletDimension = 768;
   // Remove child element if it already exists in the DOM
   if (messageEl) {
     messageEl.parentElement.removeChild(messageEl);
@@ -263,11 +256,7 @@ function createErrorMessageEl(i, message, nodeEl, messageEl) {
   span.classList.add("form-error-message", `error-message-${i + 1}`);
   span.textContent = message;
 
-  if (window.innerWidth >= tabletDimension) {
-    nodeEl.parentElement.appendChild(span);
-  } else {
-    nodeEl.parentElement.parentElement.appendChild(span);
-  }
+  nodeEl.parentElement.parentElement.appendChild(span);
 }
 
 function loadPreviewImage() {
@@ -326,8 +315,10 @@ function validateUserInfo(e) {
         userInfoInputs[i],
         errorMessageEL
       );
+      userInfoInputs[i].classList.add("form-control__invalid");
     } else if (errorMessageEL) {
       errorMessageEL.parentElement.removeChild(errorMessageEL);
+      userInfoInputs[i].classList.remove("form-control__invalid");
     }
   }
 

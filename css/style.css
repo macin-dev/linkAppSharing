@@ -284,31 +284,48 @@ body {
   color: currentColor;
 }
 
-.input-control + .form-error-message {
-  align-self: flex-end;
+.input-info-wrapper .form-error-message {
+  display: block;
+  margin-top: 8px;
+  text-align: end;
 }
 
 .input-control {
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--grey-200-color);
-  border-radius: 8px;
-  overflow: hidden;
+  position: relative;
 }
 
 .input-control select {
   text-transform: capitalize;
 }
 
+.select-arrow-icon {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+}
+
 .input-control select,
 .input-control input {
+  appearance: none;
+  box-sizing: border-box;
   background-color: transparent;
   width: 100%;
   border: none;
-  padding: 16px 16px 16px 6px;
   color: currentColor;
   font-size: 16px;
   line-height: 1.5;
+  border: 1px solid var(--grey-200-color);
+  border-radius: 8px;
+}
+
+.form-add-link input,
+.form-add-link select {
+  padding: 16px 16px 16px 48px;
+}
+
+.profile-form input {
+  padding: 16px;
 }
 
 .input-label {
@@ -317,12 +334,14 @@ body {
 }
 
 .platform-logo {
-  align-self: stretch;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 54px;
-  background-color: var(--grey-100-color);
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0 16px;
+}
+
+.platform-logo img {
+  display: block;
 }
 
 /* Form footer */
@@ -536,7 +555,7 @@ body {
 }
 
 .form-control__invalid {
-  border: 1px solid var(--red-500-color);
+  border: 1px solid var(--red-500-color) !important;
 }
 
 .form-error-message {
@@ -730,9 +749,17 @@ body {
     flex-basis: 337px;
   }
 
-  .input-group-2 .input-control + .form-error-message {
-    width: 100%;
-    text-align: end;
+  .input-info-wrapper {
+    position: relative;
+  }
+
+  .input-info-wrapper .form-error-message {
+    display: inline-block;
+    margin-top: 0;
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
   }
 }
 
