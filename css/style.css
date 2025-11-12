@@ -59,14 +59,20 @@ body {
   border-radius: 8px;
 }
 
+.btn-primary,
+.btn-secondary,
+.input-control select {
+  cursor: pointer;
+}
+
 .btn-primary {
   background-color: var(--purple-600-color);
   color: var(--white-color);
 }
 
 .btn-primary:active,
-.btn-primary:hover {
-  background-color: var(--purple-300-color);
+.btn-primary:enabled:hover {
+  background-color: var(--purple-600-color);
   box-shadow: 0 0 15px var(--purple-300-color);
 }
 
@@ -77,8 +83,8 @@ body {
 }
 
 .btn-secondary:active,
-.btn-secondary:hover {
-  background-color: var(--purple-active-color);
+.btn-secondary:enabled:hover {
+  background-color: var(--grey-100-color);
 }
 
 .btn-primary:disabled,
@@ -130,7 +136,7 @@ body {
 
 .btn-preview:active,
 .btn-preview:hover {
-  background-color: var(--purple-active-color);
+  background-color: var(--grey-100-color);
 }
 
 /* Tabs */
@@ -309,7 +315,7 @@ body {
 .input-control input {
   appearance: none;
   box-sizing: border-box;
-  background-color: transparent;
+  background-color: var(--white-color);
   width: 100%;
   border: none;
   color: currentColor;
@@ -317,11 +323,21 @@ body {
   line-height: 1.5;
   border: 1px solid var(--grey-200-color);
   border-radius: 8px;
+  transition: all 0.2s;
 }
 
 .form-add-link input,
 .form-add-link select {
   padding: 16px 16px 16px 48px;
+}
+
+.input-control select:hover,
+.input-control select:focus,
+.input-control select:active,
+.input-control input:focus {
+  outline: none;
+  border: 1px solid var(--purple-600-color);
+  box-shadow: 0 0 15px var(--purple-300-color);
 }
 
 .profile-form input {
@@ -453,6 +469,10 @@ body {
 
 .user-upload-avatar input[type="file"] {
   display: none;
+}
+
+.user-upload-avatar {
+  cursor: pointer;
 }
 
 .user-upload-avatar {
