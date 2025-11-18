@@ -585,6 +585,15 @@ body {
   flex-shrink: 0;
 }
 
+/* Draggable */
+.draggable {
+  cursor: move;
+}
+
+.dragging {
+  opacity: 0.5;
+}
+
 /* Links badges  */
 .badge-youtube {
   background-color: var(--red-550-color) !important;

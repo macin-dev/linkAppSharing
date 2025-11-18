@@ -68,66 +68,69 @@ function renderNewLink() {
   linkNumber += 1;
 
   // Variables
-  const inputContainer = document.createElement("div");
+  const dragElement = document.createElement("div");
+  dragElement.classList.add("draggable");
+  dragElement.id = `dragItem-${linkNumber}`;
+  dragElement.draggable = true;
   const addLinkTemplate = `
-    <div class="input-header">
-    <div class="input-header-label">
-        <img
-        src="/assets/images/icon-drag-and-drop.svg"
-        alt="dran and drop icon"
-        />
-        <span class="link-label">Link #${linkNumber}</span>
-    </div>
+    <div class="input-container">
+      <div class="input-header">
+      <div class="input-header-label">
+          <img
+          src="/assets/images/icon-drag-and-drop.svg"
+          alt="dran and drop icon"
+          />
+          <span class="link-label">Link #${linkNumber}</span>
+      </div>
 
-    <button type="button" class="link-remove">Remove</button>
-    </div>
+      <button type="button" class="link-remove">Remove</button>
+      </div>
 
-    <div class="input-group">
-    <label for="input-platform-${linkNumber}" class="input-label">Platform</label>
-    <div class="input-control">
-        <span class="platform-logo platform-logo-container-${linkNumber}">
-        <img
-            src="/assets/images/icon-codepen.svg"
-            alt="icon of codepen platform"
-        />
-        </span>
-        <select name="platform" id="input-platform-${linkNumber}">
-            ${logosArr.map(function (logo) {
-              return `<option value="${logo.value}">${logo.name}</option>`;
-            })}
-        </select>
+      <div class="input-group">
+      <label for="input-platform-${linkNumber}" class="input-label">Platform</label>
+      <div class="input-control">
+          <span class="platform-logo platform-logo-container-${linkNumber}">
+          <img
+              src="/assets/images/icon-codepen.svg"
+              alt="icon of codepen platform"
+          />
+          </span>
+          <select name="platform" id="input-platform-${linkNumber}">
+              ${logosArr.map(function (logo) {
+                return `<option value="${logo.value}">${logo.name}</option>`;
+              })}
+          </select>
 
-        <img src="/assets/images/arrow-down.svg" alt="arrow down icon" class="select-arrow-icon" >
-    </div>
-    </div>
+          <img src="/assets/images/arrow-down.svg" alt="arrow down icon" class="select-arrow-icon" >
+      </div>
+      </div>
 
-    <div class="input-group">
-    <label for="link-${linkNumber}" class="input-label">Link</label>
-    <div class="input-info-wrapper">
-    <div class="input-control">
-        <span class="platform-logo">
-        <img src="/assets/images/icon-link.svg" alt="" />
-        </span>
-        <input
-        type="text"
-        name="link"
-        id="link-${linkNumber}"
-        class="input-el"
-        placeholder="e.g. https://www.github.com/johnappleseed"
-        />
-    </div>
-    </div>
-    </div>
+      <div class="input-group">
+      <label for="link-${linkNumber}" class="input-label">Link</label>
+      <div class="input-info-wrapper">
+      <div class="input-control">
+          <span class="platform-logo">
+          <img src="/assets/images/icon-link.svg" alt="" />
+          </span>
+          <input
+          type="text"
+          name="link"
+          id="link-${linkNumber}"
+          class="input-el"
+          placeholder="e.g. https://www.github.com/johnappleseed"
+          />
+      </div>
+      </div>
+      </div>
+    </div
     `;
 
-  // Add the .input-container class for styling
   // Set the new 'link HTML' template
-  inputContainer.classList.add("input-container");
-  inputContainer.innerHTML = addLinkTemplate;
+  dragElement.innerHTML = addLinkTemplate;
 
   // Append a new child element
   addLinkEmpty.style.display = "none";
-  formContainer.appendChild(inputContainer);
+  formContainer.appendChild(dragElement);
 
   // Enable save button
   saveBtn.disabled = false;
@@ -141,8 +144,66 @@ function renderNewLink() {
     renderLinkUser(value, linkId - 1);
   });
 
+  // DRAG AND DROP EVENT LISTENERS
+  dragElement.addEventListener("dragstart", dragStart);
+  dragElement.addEventListener("dragend", dragEnd);
+  dragElement.addEventListener("dragover", dragOver);
+  dragElement.addEventListener("drop", drop);
+
   // Display link to the mockup phone
   displayMockupShape(linkNumber - 1);
+}
+
+// Transfer the draggable element's data in JSON format
+function dragStart(e) {
+  const payload = {
+    nodeId: this.id,
+    dragData: {
+      platformName: document.querySelector(`#${this.id} select`)?.value,
+      link: document.querySelector(`#${this.id} input`)?.value,
+    },
+  };
+
+  this.classList.add("dragging");
+  e.dataTransfer.setData("application/json", JSON.stringify(payload));
+  e.dataTransfer.effectAllowed = "move";
+}
+
+// Remove the dragging class
+function dragEnd() {
+  this.classList.remove("dragging");
+}
+
+// Allow target elements for the drop event firing
+function dragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "move";
+}
+
+// Swap data between the dragging item and drop target's item
+function drop(e) {
+  e.preventDefault();
+
+  // Retrieve JSON from the dataTransferLists
+  const raw = e.dataTransfer.getData("application/json");
+  if (!raw) return;
+
+  const { nodeId, dragData } = JSON.parse(raw);
+  if (this.id === nodeId) return;
+
+  const currentSelectEL = document.querySelector(`#${this.id} select`);
+  const currentInputEl = document.querySelector(`#${this.id} input`);
+
+  const sourceSelectEl = document.querySelector(`#${nodeId} select`);
+  const sourceInputEl = document.querySelector(`#${nodeId} input`);
+
+  sourceSelectEl.value = currentSelectEL.value;
+  sourceInputEl.value = currentInputEl.value;
+  renderIcon(currentSelectEL.value, sourceSelectEl.id);
+
+  currentSelectEL.value = dragData.platformName;
+  currentInputEl.value = dragData.link;
+  renderIcon(dragData.platformName, currentSelectEL.id);
 }
 
 // Render the matched icon based on the selecting dropdown
