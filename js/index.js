@@ -200,10 +200,18 @@ function drop(e) {
   sourceSelectEl.value = currentSelectEL.value;
   sourceInputEl.value = currentInputEl.value;
   renderIcon(currentSelectEL.value, sourceSelectEl.id);
+  renderLinkUser(
+    currentSelectEL.value,
+    Number(sourceSelectEl.id[sourceSelectEl.id.length - 1]) - 1
+  );
 
   currentSelectEL.value = dragData.platformName;
   currentInputEl.value = dragData.link;
   renderIcon(dragData.platformName, currentSelectEL.id);
+  renderLinkUser(
+    dragData.platformName,
+    Number(currentSelectEL.id[currentSelectEL.id.length - 1]) - 1
+  );
 }
 
 // Render the matched icon based on the selecting dropdown
