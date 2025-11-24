@@ -1,5 +1,9 @@
 // Imports
+//Short Unique ID - CDN
+import shortUniqueId from "https://cdn.jsdelivr.net/npm/short-unique-id@5.3.2/+esm";
 import { logosArr } from "../js/data.js";
+
+const uui = new shortUniqueId({ length: 5 });
 
 // VARIABLES
 const addLinkBtn = document.getElementById("add-link");
@@ -15,7 +19,6 @@ const uploadImageHintEl = document.querySelector(".upload-image");
 const avatarShape = document.querySelector(".profile-picture");
 const userFirstName = document.getElementById("firstName");
 const userLastName = document.getElementById("lastName");
-const userNameShape = document.querySelector(".profile-username");
 const firstNameEl = document.querySelector(".first-name");
 const lastNameEl = document.querySelector(".last-name");
 const emailEl = document.querySelector(".preview-email");
@@ -26,13 +29,14 @@ const profileSection = document.querySelector(".app-profile");
 const userInfoForm = document.querySelector(".profile-form");
 const userInfoInputs = document.querySelectorAll(".input-group-2 input");
 
+// Global state
+const formData = [];
+
 const urlRegex =
   /^(?:https?:\/\/)?(?:www\.)?(?:(?:github|gitlab)\.com\/[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}|dev\.to\/[A-Za-z0-9_\-]+|codewars\.com\/users\/[A-Za-z0-9_\-]+|hashnode\.com\/@?[A-Za-z0-9_\-]+|youtube\.com\/(?:@|user\/|c\/)[A-Za-z0-9_\-]+|freecodecamp\.org\/(?:news\/author\/)?[A-Za-z0-9_\-]+|frontendmentor\.io\/(?:profile|users)\/[A-Za-z0-9_\-]+|facebook\.com\/(?:profile\.php\?id=\d+|[A-Za-z0-9\.\-_]+)|linkedin\.com\/in\/[A-Za-z0-9\-]+|(?:twitter\.com|x\.com)\/[A-Za-z0-9_]{1,15}|twitch\.tv\/[A-Za-z0-9_]{4,25})(?:\/.*)?$/i;
 
-let linkNumber = 0;
-
 // Add Event Listeners
-addLinkBtn.addEventListener("click", renderNewLink);
+addLinkBtn.addEventListener("click", createNewLink);
 formEl.addEventListener("submit", validateFormData);
 userInfoForm.addEventListener("submit", validateUserInfo);
 inputFileEl.addEventListener("change", loadPreviewImage);
@@ -62,105 +66,164 @@ tabsBtn[1].addEventListener("click", function () {
   tabsBtn[1].classList.add("tab-active");
 });
 
-// Render a new link element into the DOM
-function renderNewLink() {
-  // Increment Link #
-  linkNumber += 1;
+// Store data into the current state(array)
+function createNewLink() {
+  // Generate an ID for each instance
+  const dataId = uui.rnd();
 
-  // Variables
-  const dragElement = document.createElement("div");
-  dragElement.classList.add("draggable");
-  dragElement.id = `dragItem-${linkNumber}`;
-  dragElement.draggable = true;
-  const addLinkTemplate = `
+  // Object Template
+  const dataObj = {
+    id: dataId,
+    inputData: {
+      platform: {
+        platformName: "platformName",
+        value: "github",
+      },
+      link: {
+        linkName: "linkURL",
+        value: "",
+      },
+    },
+  };
+
+  // ADD new Obj
+  formData.push(dataObj);
+
+  // Render LINK
+  renderLinkHTML(dataObj, formData.length);
+}
+
+// Return a new template HTML with the data passed in
+function generateLinkHTML(linkData, link) {
+  const { id, inputData } = linkData;
+  return `
     <div class="input-container">
       <div class="input-header">
-      <div class="input-header-label">
+        <div class="input-header-label">
           <img
-          src="/assets/images/icon-drag-and-drop.svg"
-          alt="dran and drop icon"
+            src="/assets/images/icon-drag-and-drop.svg"
+            alt="dran and drop icon"
           />
-          <span class="link-label">Link #${linkNumber}</span>
-      </div>
+          <span class="link-label">Link #${link}</span>
+        </div>
 
-      <button type="button" class="link-remove">Remove</button>
+        <button type="button" class="link-remove">Remove</button>
       </div>
 
       <div class="input-group">
-      <label for="input-platform-${linkNumber}" class="input-label">Platform</label>
-      <div class="input-control">
-          <span class="platform-logo platform-logo-container-${linkNumber}">
-          <img
-              src="/assets/images/icon-codepen.svg"
-              alt="icon of codepen platform"
-          />
+        <label 
+          for="${inputData.platform.platformName}-${id}" 
+          class="input-label"
+        >Platform</label>
+        <div class="input-control">
+          <span class="platform-logo platform-logo-container-${link}">
+            <img
+                src="/assets/images/icon-github.svg"
+                alt="icon of codepen platform"
+            />
           </span>
-          <select name="platform" id="input-platform-${linkNumber}">
-              ${logosArr.map(function (logo) {
-                return `<option value="${logo.value}">${logo.name}</option>`;
-              })}
+          <select 
+            name="${inputData.platform.platformName}-${id}" 
+            id="${inputData.platform.platformName}-${id}"
+            data-id="${id}"
+          > 
+            ${logosArr.map(function (logo) {
+              return `<option value="${logo.value}">${logo.name}</option>`;
+            })}
           </select>
 
           <img src="/assets/images/arrow-down.svg" alt="arrow down icon" class="select-arrow-icon" >
-      </div>
+        </div>
       </div>
 
       <div class="input-group">
-      <label for="link-${linkNumber}" class="input-label">Link</label>
-      <div class="input-info-wrapper">
-      <div class="input-control">
-          <span class="platform-logo">
-          <img src="/assets/images/icon-link.svg" alt="" />
-          </span>
-          <input
-          type="text"
-          name="link"
-          id="link-${linkNumber}"
-          class="input-el"
-          placeholder="e.g. https://www.github.com/johnappleseed"
-          />
-      </div>
-      </div>
+        <label 
+          for="${inputData.link.linkName}-${id}" 
+          class="input-label"
+          >Link</label>
+        <div class="input-info-wrapper">
+          <div class="input-control">
+              <span class="platform-logo">
+                <img src="/assets/images/icon-link.svg" alt="" />
+              </span>
+              <input
+                type="text"
+                name="${inputData.link.linkName}-${id}"
+                id="${inputData.link.linkName}-${id}"
+                class="input-el"
+                placeholder="e.g. https://www.github.com/johnappleseed"
+                data-id="${id}"
+              />
+          </div>
+        </div>
       </div>
     </div
     `;
+}
 
-  // Set the new 'link HTML' template
-  dragElement.innerHTML = addLinkTemplate;
-
-  // Append a new child element
-  addLinkEmpty.style.display = "none";
-  formContainer.appendChild(dragElement);
-
-  // Enable save button
-  saveBtn.disabled = false;
-
-  // Event Listener
-  const inputSelect = document.getElementById(`input-platform-${linkNumber}`);
-  inputSelect.addEventListener("change", function (e) {
-    const { value, id } = e.target;
-    const linkId = Number(id[id.length - 1]);
-    renderIcon(value, id);
-    renderLinkUser(value, linkId - 1);
+// Update current state
+function updateData(e) {
+  formData.forEach((obj) => {
+    if (obj.id === e.target.dataset.id) {
+      if (e.target.name === `platformName-${obj.id}`) {
+        obj.inputData.platform.value = e.target.value;
+      } else {
+        obj.inputData.link.value = e.target.value;
+      }
+    }
   });
+}
 
-  // DRAG AND DROP EVENT LISTENERS
-  dragElement.addEventListener("dragstart", dragStart);
-  dragElement.addEventListener("dragend", dragEnd);
-  dragElement.addEventListener("dragover", dragOver);
-  dragElement.addEventListener("drop", drop);
+// Render a new link element into the DOM
+function renderLinkHTML(link, length) {
+  // Hide default UI state
+  if (saveBtn.disabled) {
+    addLinkEmpty.style.display = "none";
+    saveBtn.disabled = false;
+  }
 
-  // Display link to the mockup phone
-  displayMockupShape(linkNumber - 1);
+  // Generate HTML
+  const container = document.createElement("div");
+  container.classList.add("draggable");
+  container.dataset.id = link.id;
+  container.draggable = true;
+
+  container.innerHTML = generateLinkHTML(link, length);
+  formContainer.appendChild(container);
+
+  // Add event listeners
+  document
+    .getElementById(`${link.inputData.platform.platformName}-${link.id}`)
+    .addEventListener("change", function (e) {
+      renderIcon(e.target.value, e.target.dataset.id);
+      renderLinkUser(e.target.value, e.target.dataset.id);
+      updateData(e);
+    });
+
+  document
+    .getElementById(`${link.inputData.link.linkName}-${link.id}`)
+    .addEventListener("input", updateData);
+
+  // Drag an Drop events
+  container.addEventListener("dragstart", dragStart);
+  container.addEventListener("dragend", dragEnd);
+  container.addEventListener("dragover", dragOver);
+  container.addEventListener("drop", drop);
+
+  // // Display link to the mockup phone
+  renderPhoneLink(length - 1, link.id);
 }
 
 // Transfer the draggable element's data in JSON format
 function dragStart(e) {
   const payload = {
-    nodeId: this.id,
+    nodeId: this.dataset.id,
     dragData: {
-      platformName: document.querySelector(`#${this.id} select`)?.value,
-      link: document.querySelector(`#${this.id} input`)?.value,
+      platformName: document.querySelector(
+        `[data-id="${this.dataset.id}"] select`
+      )?.value,
+      link: document.querySelector(`[data-id="${this.dataset.id}"] input`)
+        ?.value,
     },
   };
 
@@ -189,90 +252,110 @@ function drop(e) {
   if (!raw) return;
 
   const { nodeId, dragData } = JSON.parse(raw);
-  if (this.id === nodeId) return;
+  if (this.dataset.id === nodeId) return;
 
-  const currentSelectEL = document.querySelector(`#${this.id} select`);
-  const currentInputEl = document.querySelector(`#${this.id} input`);
+  const currentSelectEL = document.querySelector(
+    `[data-id="${this.dataset.id}"] select`
+  );
+  const currentInputEl = document.querySelector(
+    `[data-id="${this.dataset.id}"] input`
+  );
 
-  const sourceSelectEl = document.querySelector(`#${nodeId} select`);
-  const sourceInputEl = document.querySelector(`#${nodeId} input`);
+  const sourceSelectEl = document.querySelector(`[data-id="${nodeId}"] select`);
+  const sourceInputEl = document.querySelector(`[data-id="${nodeId}"] input`);
 
   sourceSelectEl.value = currentSelectEL.value;
   sourceInputEl.value = currentInputEl.value;
-  renderIcon(currentSelectEL.value, sourceSelectEl.id);
-  renderLinkUser(
-    currentSelectEL.value,
-    Number(sourceSelectEl.id[sourceSelectEl.id.length - 1]) - 1
-  );
+  renderIcon(currentSelectEL.value, sourceSelectEl.dataset.id);
+  renderLinkUser(currentSelectEL.value, sourceSelectEl.dataset.id);
 
   currentSelectEL.value = dragData.platformName;
   currentInputEl.value = dragData.link;
-  renderIcon(dragData.platformName, currentSelectEL.id);
-  renderLinkUser(
-    dragData.platformName,
-    Number(currentSelectEL.id[currentSelectEL.id.length - 1]) - 1
-  );
+  renderIcon(dragData.platformName, currentSelectEL.dataset.id);
+  renderLinkUser(dragData.platformName, currentSelectEL.dataset.id);
+
+  // Update state
+  swapFormData(nodeId, this.dataset.id);
+}
+
+// Swap data in the state array
+function swapFormData(sourceId, targetId) {
+  let i = null;
+  let j = null;
+
+  formData.forEach((obj, index) => {
+    if (obj.id === sourceId) {
+      i = index;
+    } else if (obj.id === targetId) {
+      j = index;
+    }
+  });
+
+  const sourcePLatform = formData[i].inputData.platform.value;
+  const linkPlatform = formData[i].inputData.link.value;
+
+  formData[i].inputData.platform.value = formData[j].inputData.platform.value;
+  formData[i].inputData.link.value = formData[j].inputData.link.value;
+
+  formData[j].inputData.platform.value = sourcePLatform;
+  formData[j].inputData.link.value = linkPlatform;
 }
 
 // Render the matched icon based on the selecting dropdown
 function renderIcon(iconName, idLink) {
-  const idNumber = Number(idLink[idLink.length - 1]);
-
   document.querySelector(
-    `.platform-logo-container-${idNumber}`
+    `[data-id="${idLink}"] .platform-logo`
   ).innerHTML = `<img src="/assets/images/icon-${iconName}.svg" alt="${iconName} icon">`;
 }
 
 // Render links on the mockup phone
-function displayMockupShape(index) {
-  if (index < linkShapes.length) {
-    linkShapes[index].innerHTML = `
+function renderPhoneLink(index, id) {
+  const templateHTML = `
     <img src="/assets/images/icon-github-white.svg" alt="github icon">
     <span class="link-item-name">github</span>
     <img src="/assets/images/icon-arrow-right.svg" alt="arrow right icon" class="link-arrow-right">
   `;
+
+  if (index < linkShapes.length) {
+    linkShapes[index].innerHTML = templateHTML;
     linkShapes[index].classList.remove("shape-element");
     linkShapes[index].classList.add("link-item__active");
+    linkShapes[index].dataset.id = id;
   } else {
     const liEl = document.createElement("li");
     const divEl = document.createElement("div");
     liEl.classList.add("link-item");
     divEl.classList.add("link-item-container", "link-item__active");
-    divEl.innerHTML = `
-      <img src="/assets/images/icon-github-white.svg" alt="github icon">
-      <span class="link-item-name">github</span>
-      <img src="/assets/images/icon-arrow-right.svg" alt="arrow right icon" class="link-arrow-right">
-    `;
+    divEl.dataset.id = id;
+    divEl.innerHTML = templateHTML;
 
     liEl.appendChild(divEl);
     linksContainer.appendChild(liEl);
   }
 }
 
-function renderLinkUser(value, id) {
+function renderLinkUser(value, dataid) {
+  const link = document.querySelector(`.link-item [data-id="${dataid}"]`);
+
   const linkData = logosArr
     .filter(function (link) {
       return link.value === value;
     })
     .at(0);
 
-  removeLinksClass(id);
+  // Remove previous classes
+  removeLinksClass(link);
 
-  linkShapes[id].classList.add(linkData.className);
-  linkShapes[id].children[0].src = linkData.path;
-  linkShapes[id].children[1].textContent = linkData.name;
+  link.classList.add(linkData.className);
+  link.children[0].src = linkData.path;
+  link.children[1].textContent = linkData.name;
 }
 
-// Remove the last links' classes
-function removeLinksClass(id) {
-  const lastClassValue = linkShapes[id].classList.length;
-
-  for (let link of logosArr) {
-    if (link.className === linkShapes[id].classList[lastClassValue - 1]) {
-      linkShapes[id].classList.remove(
-        linkShapes[id].classList[lastClassValue - 1]
-      );
-    }
+// Remove the last link-item class
+function removeLinksClass(elRef) {
+  const classString = elRef.classList[2];
+  if (classString) {
+    elRef.classList.remove(classString);
   }
 }
 
@@ -328,6 +411,8 @@ function createErrorMessageEl(i, message, nodeEl, messageEl) {
   nodeEl.parentElement.parentElement.appendChild(span);
 }
 
+// USER DETAILS
+// Render user's photo
 function loadPreviewImage() {
   const fetchImgUrl = URL.createObjectURL(inputFileEl.files[0]);
   loadAvatarEL.classList.add("load-bg-image");
