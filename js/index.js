@@ -10,7 +10,7 @@ const addLinkBtn = document.getElementById("add-link");
 const formContainer = document.querySelector(".form-container");
 const saveBtn = document.getElementById("save");
 const addLinkEmpty = document.querySelector(".add-link-empty");
-const linkShapes = document.getElementsByClassName("link-item-container");
+const listsLinks = document.getElementsByClassName("link-item");
 const linksContainer = document.querySelector(".links-lists");
 const formEl = document.querySelector(".form-add-link");
 const inputFileEl = document.getElementById("uploadAvatar");
@@ -30,7 +30,7 @@ const userInfoForm = document.querySelector(".profile-form");
 const userInfoInputs = document.querySelectorAll(".input-group-2 input");
 
 // Global state
-const formData = [];
+let formData = [];
 
 const urlRegex =
   /^(?:https?:\/\/)?(?:www\.)?(?:(?:github|gitlab)\.com\/[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}|dev\.to\/[A-Za-z0-9_\-]+|codewars\.com\/users\/[A-Za-z0-9_\-]+|hashnode\.com\/@?[A-Za-z0-9_\-]+|youtube\.com\/(?:@|user\/|c\/)[A-Za-z0-9_\-]+|freecodecamp\.org\/(?:news\/author\/)?[A-Za-z0-9_\-]+|frontendmentor\.io\/(?:profile|users)\/[A-Za-z0-9_\-]+|facebook\.com\/(?:profile\.php\?id=\d+|[A-Za-z0-9\.\-_]+)|linkedin\.com\/in\/[A-Za-z0-9\-]+|(?:twitter\.com|x\.com)\/[A-Za-z0-9_]{1,15}|twitch\.tv\/[A-Za-z0-9_]{4,25})(?:\/.*)?$/i;
@@ -96,6 +96,7 @@ function createNewLink() {
 // Return a new template HTML with the data passed in
 function generateLinkHTML(linkData, link) {
   const { id, inputData } = linkData;
+
   return `
     <div class="input-container">
       <div class="input-header">
@@ -107,7 +108,7 @@ function generateLinkHTML(linkData, link) {
           <span class="link-label">Link #${link}</span>
         </div>
 
-        <button type="button" class="link-remove">Remove</button>
+        <button type="button" class="link-remove" data-id="${id}">Remove</button>
       </div>
 
       <div class="input-group">
@@ -118,7 +119,7 @@ function generateLinkHTML(linkData, link) {
         <div class="input-control">
           <span class="platform-logo platform-logo-container-${link}">
             <img
-                src="/assets/images/icon-github.svg"
+                src="/assets/images/icon-${inputData.platform.value}.svg"
                 alt="icon of codepen platform"
             />
           </span>
@@ -128,7 +129,9 @@ function generateLinkHTML(linkData, link) {
             data-id="${id}"
           > 
             ${logosArr.map(function (logo) {
-              return `<option value="${logo.value}">${logo.name}</option>`;
+              return `<option value="${
+                logo.value
+              }" ${logo.value === inputData.platform.value ? "selected" : ""}>${logo.name}</option>`;
             })}
           </select>
 
@@ -151,8 +154,9 @@ function generateLinkHTML(linkData, link) {
                 name="${inputData.link.linkName}-${id}"
                 id="${inputData.link.linkName}-${id}"
                 class="input-el"
-                placeholder="e.g. https://www.github.com/johnappleseed"
+                placeholder="e.g. https://www.github.com/macin-dev"
                 data-id="${id}"
+                value="${inputData.link.value}"
               />
           </div>
         </div>
@@ -172,6 +176,59 @@ function updateData(e) {
       }
     }
   });
+}
+
+// Render updated links
+function renderUpdatedLinks() {
+  // Clean previous HTML
+  while (formContainer.lastChild) {
+    formContainer.removeChild(formContainer.lastChild);
+  }
+
+  if (formData.length === 0) {
+    addLinkEmpty.style.display = "block";
+    saveBtn.disabled = true;
+    return;
+  }
+
+  // Render out links
+  formData.forEach((link, i) => {
+    renderLinkHTML(link, i + 1);
+  });
+}
+
+// Remove phone links from the page
+function cleanPhoneLinks() {
+  const defaultLenth = 5;
+  const phoneLinks = document.querySelectorAll(".link-item__default");
+
+  for (let i = 0; i < phoneLinks.length; i++) {
+    if (i < defaultLenth) {
+      phoneLinks[i].parentElement.removeAttribute("data-id");
+      phoneLinks[i].remove();
+    } else {
+      phoneLinks[i].parentElement.remove();
+    }
+  }
+}
+
+// Remove link from the array and DOM
+function deleteLink(e) {
+  // Remove link from the DOM
+  const link = e.target.parentElement.parentElement.parentElement;
+
+  // Update state
+  const updatedData = formData.filter((obj) => obj.id !== e.target.dataset.id);
+  formData = updatedData;
+
+  // Clean phone link
+  cleanPhoneLinks();
+
+  // Remove link
+  link.remove();
+
+  // Render HTML
+  renderUpdatedLinks();
 }
 
 // Render a new link element into the DOM
@@ -204,6 +261,10 @@ function renderLinkHTML(link, length) {
     .getElementById(`${link.inputData.link.linkName}-${link.id}`)
     .addEventListener("input", updateData);
 
+  document
+    .querySelector(`[data-id="${link.id}"] .link-remove`)
+    .addEventListener("click", deleteLink);
+
   // Drag an Drop events
   container.addEventListener("dragstart", dragStart);
   container.addEventListener("dragend", dragEnd);
@@ -211,7 +272,7 @@ function renderLinkHTML(link, length) {
   container.addEventListener("drop", drop);
 
   // // Display link to the mockup phone
-  renderPhoneLink(length - 1, link.id);
+  renderPhoneLink(length - 1, link.id, link.inputData.platform.value);
 }
 
 // Transfer the draggable element's data in JSON format
@@ -309,39 +370,45 @@ function renderIcon(iconName, idLink) {
 }
 
 // Render links on the mockup phone
-function renderPhoneLink(index, id) {
+function renderPhoneLink(index, id, platformName) {
+  const getData = getPlatformName(platformName);
+
   const templateHTML = `
-    <img src="/assets/images/icon-github-white.svg" alt="github icon">
-    <span class="link-item-name">github</span>
+  <div class="link-item__default ${getData.className}">
+    <img src="${getData.path}" alt="${getData.name} icon">
+    <span class="link-item-name">${getData.name}</span>
     <img src="/assets/images/icon-arrow-right.svg" alt="arrow right icon" class="link-arrow-right">
+  </div>
   `;
 
-  if (index < linkShapes.length) {
-    linkShapes[index].innerHTML = templateHTML;
-    linkShapes[index].classList.remove("shape-element");
-    linkShapes[index].classList.add("link-item__active");
-    linkShapes[index].dataset.id = id;
+  if (index < listsLinks.length) {
+    listsLinks[index].innerHTML = templateHTML;
+    listsLinks[index].dataset.id = id;
   } else {
     const liEl = document.createElement("li");
-    const divEl = document.createElement("div");
     liEl.classList.add("link-item");
-    divEl.classList.add("link-item-container", "link-item__active");
-    divEl.dataset.id = id;
-    divEl.innerHTML = templateHTML;
+    liEl.dataset.id = id;
+    liEl.innerHTML = templateHTML;
 
-    liEl.appendChild(divEl);
     linksContainer.appendChild(liEl);
   }
 }
 
-function renderLinkUser(value, dataid) {
-  const link = document.querySelector(`.link-item [data-id="${dataid}"]`);
-
-  const linkData = logosArr
+// Get platform name's data
+function getPlatformName(name) {
+  return logosArr
     .filter(function (link) {
-      return link.value === value;
+      return link.value === name;
     })
     .at(0);
+}
+
+function renderLinkUser(value, dataid) {
+  const link = document.querySelector(
+    `[data-id="${dataid}"] .link-item__default`
+  );
+
+  const linkData = getPlatformName(value);
 
   // Remove previous classes
   removeLinksClass(link);
@@ -353,7 +420,7 @@ function renderLinkUser(value, dataid) {
 
 // Remove the last link-item class
 function removeLinksClass(elRef) {
-  const classString = elRef.classList[2];
+  const classString = elRef.classList[1];
   if (classString) {
     elRef.classList.remove(classString);
   }
