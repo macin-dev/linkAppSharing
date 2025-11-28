@@ -461,7 +461,28 @@ function validateFormData(e) {
     }
   }
 
+  // Validate data before sending
+  for (let i = 0; i < formData.length; i++) {
+    if (!urlRegex.test(formData[i].inputData.link.value)) {
+      e.preventDefault();
+      return;
+    }
+  }
+
+  // Save to local storage
+  localStorage.setItem("devlinks", JSON.stringify(formData));
+  popupAlert();
+
   e.preventDefault();
+}
+
+// Alert success
+function popupAlert() {
+  const popup = document.querySelector(".popup");
+  popup.classList.add("alert-success");
+  setTimeout(() => {
+    popup.classList.remove("alert-success");
+  }, 3000);
 }
 
 // Create and render an error message element into the DOM
@@ -541,6 +562,25 @@ function validateUserInfo(e) {
       errorMessageEL.parentElement.removeChild(errorMessageEL);
       userInfoInputs[i].classList.remove("form-control__invalid");
     }
+  }
+
+  const isError = document.querySelector(
+    ".profile-form .form-control__invalid"
+  );
+
+  if (!isError) {
+    const url =
+      inputFileEl.files[0] && URL.createObjectURL(inputFileEl.files[0]);
+
+    const dataUser = {
+      firstName: userInfoInputs[0].value,
+      lastName: userInfoInputs[1].value,
+      email: userInfoInputs[2].value,
+      path: url || "",
+    };
+
+    localStorage.setItem("devlinks-profile", JSON.stringify(dataUser));
+    popupAlert();
   }
 
   e.preventDefault();

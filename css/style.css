@@ -594,6 +594,26 @@ body {
   opacity: 0.5;
 }
 
+/* Popup alert */
+.popup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--grey-900-color);
+  color: var(--white-color);
+  padding: 1em 1.5em;
+  border-radius: 12px;
+  position: absolute;
+  bottom: -52px;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: all 0.3s;
+}
+
+.alert-success {
+  bottom: 40px !important;
+}
+
 /* Links badges  */
 .badge-youtube {
   background-color: var(--red-550-color) !important;
