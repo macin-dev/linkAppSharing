@@ -645,6 +645,105 @@ body {
   background-color: var(--blue-800-color) !important;
 }
 
+/* PREVIEW */
+.app-preview {
+  min-height: 100vh;
+  overflow: auto;
+  position: relative;
+}
+
+.main-preview h1 {
+  text-align: center;
+}
+
+.app-preview .btn-secondary:active,
+.app-preview .btn-secondary:hover {
+  background-color: var(--grey-100-color);
+}
+
+/* Header */
+.header-preview {
+  margin-bottom: 3em;
+}
+
+.header-preview a,
+.link-item__preview a {
+  text-decoration: none;
+}
+
+.nav-preview {
+  padding: 1em 1.5em;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5em;
+}
+
+/* Profile details */
+.main-preview {
+  max-width: 237px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.profile-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 3.5em;
+}
+
+.profile-preview img {
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  border: 4px solid var(--purple-600-color);
+  object-fit: cover;
+  margin-bottom: 1.5em;
+}
+
+.profile-name__preview {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.5;
+  margin-bottom: 0.25em;
+}
+
+.profile-email__preview {
+  font-size: 1rem;
+  color: var(--grey-500-color);
+  line-height: 1.5;
+}
+
+/* Links */
+.lists-links__preview {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.link-item__preview a {
+  background-color: var(--grey-950-color);
+  border-radius: 8px;
+  padding: 1em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.5;
+  color: var(--white-color);
+  cursor: pointer;
+}
+
+.link-item__preview .link-arrow-right {
+  margin-left: auto;
+}
+
+.error-protocol {
+  color: var(--red-500-color);
+}
+
 /* MEDIA QUERIES */
 /* Tablet: 768px */
 @media screen and (min-width: 768px) {
@@ -666,6 +765,12 @@ body {
   /* Buttons */
   .btn-preview {
     padding: 16px 24px;
+    text-decoration: none;
+  }
+
+  .btn-preview:active,
+  .btn-preview:hover {
+    color: var(--purple-600-color);
   }
 
   /* Tabs */
@@ -789,6 +894,33 @@ body {
     top: 50%;
     right: 16px;
     transform: translateY(-50%);
+  }
+
+  /* PREVIEW */
+  .header-preview {
+    box-sizing: border-box;
+    border: 1px solid var(--purple-600-color);
+    background-color: var(--purple-600-color);
+    min-height: 357px;
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+  }
+
+  .nav-preview {
+    background-color: var(--white-color);
+    margin: 1.5em;
+    border-radius: 8px;
+  }
+
+  .main-preview {
+    position: absolute;
+    top: 225px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--white-color);
+    padding: 3.2em 3.5em;
+    border-radius: 24px;
+    box-shadow: 0 0 15px var(--grey-200-color);
   }
 }
 
