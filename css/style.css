@@ -39,8 +39,8 @@ body {
   font-family: "Instrument Sans", sans-serif;
   font-weight: 400;
   background-color: var(--grey-50-color);
-  height: 100vh;
-  overflow-y: hidden;
+  min-height: 100vh;
+  height: 100%;
 }
 
 /* 
@@ -181,9 +181,11 @@ body {
 
 /* SECTION CONTAINER */
 .section-container {
+  position: relative;
   background-color: var(--grey-50-color);
   padding: 16px;
   height: 100%;
+  overflow-y: hidden;
 }
 
 /* LEFT LAYOUT - PHONE M0CKUP PREVIEW */
@@ -193,8 +195,6 @@ body {
 
 /* RIGHT LAYOUT - ADD LINK */
 .app {
-  overflow: auto;
-  height: calc(100% - 90px);
   background-color: var(--white-color);
   border-radius: 12px;
 }
@@ -596,6 +596,9 @@ body {
 
 /* Popup alert */
 .popup {
+  --height: 52px;
+  box-sizing: border-box;
+  height: var(--height);
   display: flex;
   align-items: center;
   gap: 8px;
@@ -604,14 +607,14 @@ body {
   padding: 1em 1.5em;
   border-radius: 12px;
   position: absolute;
-  bottom: -52px;
+  bottom: calc(var(--height) * -1);
   left: 50%;
   transform: translateX(-50%);
   transition: all 0.3s;
 }
 
 .alert-success {
-  bottom: 40px !important;
+  bottom: 30px !important;
 }
 
 /* Links badges  */
@@ -808,10 +811,6 @@ body {
   }
 
   /* App */
-  .app {
-    height: calc(100% - 138px);
-  }
-
   .app-container {
     padding: 40px;
   }
@@ -946,13 +945,26 @@ body {
 
 /* Desktop: 1440px */
 @media screen and (min-width: 1440px) {
+  body {
+    height: 100vh;
+    overflow: hidden;
+  }
+
   /* SECTION CONTAINER */
   .section-container {
     display: flex;
     column-gap: 24px;
+    height: calc(100% - 138px);
   }
 
   /* Phone Mockup */
+  .phone-mockup-preview,
+  .app {
+    overflow: hidden;
+    height: 100%;
+    overflow: scroll;
+  }
+
   .phone-mockup-preview {
     position: relative;
     background-color: var(--white-color);
@@ -961,7 +973,6 @@ body {
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    height: calc(100% - 138px);
   }
 
   /* App */
