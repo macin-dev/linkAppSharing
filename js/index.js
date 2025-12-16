@@ -76,8 +76,9 @@ function createNewLink() {
     id: dataId,
     inputData: {
       platform: {
+        uuid: logosArr.at(0).uuid,
         platformName: "platformName",
-        value: "github",
+        value: logosArr.at(0).value,
       },
       link: {
         linkName: "linkURL",
@@ -166,11 +167,12 @@ function generateLinkHTML(linkData, link) {
 }
 
 // Update current state
-function updateData(e) {
+function updateData(e, uuid) {
   formData.forEach((obj) => {
     if (obj.id === e.target.dataset.id) {
       if (e.target.name === `platformName-${obj.id}`) {
         obj.inputData.platform.value = e.target.value;
+        obj.inputData.platform.uuid = uuid;
       } else {
         obj.inputData.link.value = e.target.value;
       }
@@ -253,8 +255,8 @@ function renderLinkHTML(link, length) {
     .getElementById(`${link.inputData.platform.platformName}-${link.id}`)
     .addEventListener("change", function (e) {
       renderIcon(e.target.value, e.target.dataset.id);
-      renderLinkUser(e.target.value, e.target.dataset.id);
-      updateData(e);
+      const uuid = renderLinkUser(e.target.value, e.target.dataset.id);
+      updateData(e, uuid);
     });
 
   document
@@ -416,6 +418,8 @@ function renderLinkUser(value, dataid) {
   link.classList.add(linkData.className);
   link.children[0].src = linkData.path;
   link.children[1].textContent = linkData.name;
+
+  return linkData.uuid;
 }
 
 // Remove the last link-item class
