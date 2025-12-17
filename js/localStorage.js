@@ -1,11 +1,15 @@
+// Import statements
 import { getLinkDataById } from "../utils/getLinkDataById.js";
 
+// Global variables
 const messageEl = document.querySelector(".default-message");
 const linksContainerEl = document.querySelector(".preview-link-container");
 const ulContainer = document.querySelector(".lists-links__preview");
+const userInfoContainer = document.querySelector(".profile-preview");
 
-function parseJsonFromLocalStorage() {
-  const isRaw = localStorage.getItem("devlinks");
+// Parse the data coming from the localStorage
+function parseLocalStorageData(label) {
+  const isRaw = localStorage.getItem(label);
   if (!isRaw) {
     return;
   }
@@ -13,10 +17,12 @@ function parseJsonFromLocalStorage() {
   return JSON.parse(isRaw);
 }
 
-function renderHTML(arr) {
+// Render each link with the appropiate data
+function renderLinksHTML(arr) {
   let html = "";
 
   arr.forEach((link) => {
+    // Filter links by Id - it returns an object
     const linkObj = getLinkDataById(link.inputData.platform.uuid);
 
     html += `
@@ -42,11 +48,23 @@ function renderHTML(arr) {
   ulContainer.innerHTML = html;
 }
 
+// Render user's information
+function renderUserInfoHTML(obj) {
+  userInfoContainer.innerHTML = `
+    <h2 class="profile-name__preview">${obj.firstName} ${obj.lastName}</h2>
+    <span class="profile-email__preview">${obj.email}</span>
+  `;
+}
+
+// Add Event Listeners
 document.addEventListener("DOMContentLoaded", () => {
-  const isData = parseJsonFromLocalStorage();
-  if (!isData) {
+  const isLinks = parseLocalStorageData("devlinks");
+  const userInfo = parseLocalStorageData("devlinks-profile");
+
+  if (!isLinks || !userInfo) {
     return;
   }
 
-  renderHTML(isData);
+  renderLinksHTML(isLinks);
+  renderUserInfoHTML(userInfo);
 });

@@ -763,8 +763,20 @@ body {
   margin-left: auto;
 }
 
-.error-protocol {
-  color: var(--red-500-color);
+.default-message {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.default-message h3 {
+  margin-top: 0;
+  font-size: 24px;
+}
+
+.default-message span {
+  font-size: 18px;
+  line-height: 1.5;
 }
 
 .preview-link-container {
