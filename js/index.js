@@ -467,9 +467,13 @@ function validateFormData(e) {
 
   // Validate data before sending
   for (let i = 0; i < formData.length; i++) {
-    if (!urlRegex.test(formData[i].inputData.link.value)) {
+    const link = formData[i].inputData.link.value;
+
+    if (!urlRegex.test(link)) {
       e.preventDefault();
       return;
+    } else if (link.startsWith("www")) {
+      formData[i].inputData.link.value = `https://${link}`;
     }
   }
 
