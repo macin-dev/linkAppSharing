@@ -1,5 +1,5 @@
 // Import statements
-import { getLinkDataById } from "../utils/getLinkDataById.js";
+import { getPlatformData } from "../utils/getPlatformData.js";
 
 // Global variables
 const messageEl = document.querySelector(".default-message");
@@ -23,7 +23,7 @@ function renderLinksHTML(arr) {
 
   arr.forEach((link) => {
     // Filter links by Id - it returns an object
-    const linkObj = getLinkDataById(link.inputData.platform.uuid);
+    const linkObj = getPlatformData(link.inputData.platform.value);
 
     html += `
         <li class="link-item__preview">

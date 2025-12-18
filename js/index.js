@@ -290,7 +290,7 @@ function renderUpdatedLinks() {
 
 // Render links on the mockup phone
 function renderPhoneLink(index, id, platformName) {
-  const getData = getPlatformData(logosArr, platformName);
+  const getData = getPlatformData(platformName);
 
   const templateHTML = `
   <div class="link-item__default ${getData.className}">

@@ -1,5 +1,4 @@
 import { getPlatformData } from "../utils/getPlatformData.js";
-import { logosArr } from "../data/data.js";
 
 // Render the matched icon based on the selecting dropdown
 function renderIcon(name, dataid) {
@@ -13,7 +12,7 @@ function renderLinkPreview(name, dataid) {
     `[data-id="${dataid}"] .link-item__default`
   );
 
-  const linkData = getPlatformData(logosArr, name);
+  const linkData = getPlatformData(name);
 
   // Remove previous classes
   removeLinksClass(link);
