@@ -1042,6 +1042,7 @@ body {
     border-radius: 50%;
     overflow: hidden;
     box-sizing: border-box;
+    background-color: var(--grey-100-color);
   }
 
   .profile-picture img {
@@ -1069,8 +1070,6 @@ body {
 
   .shape__active {
     width: initial !important;
-    height: initial !important;
-    background-color: transparent;
   }
 
   .profile-username {
