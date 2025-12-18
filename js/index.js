@@ -41,13 +41,13 @@ formEl.addEventListener("submit", validateFormData);
 userInfoForm.addEventListener("submit", validateUserInfo);
 inputFileEl.addEventListener("change", loadPreviewImage);
 userFirstName.addEventListener("input", function (e) {
-  renderUserInfo(e.target.value, firstNameEl);
+  renderUserInfo(e.target, firstNameEl);
 });
 userLastName.addEventListener("input", function (e) {
-  renderUserInfo(e.target.value, lastNameEl);
+  renderUserInfo(e.target, lastNameEl);
 });
 emailInput.addEventListener("input", function (e) {
-  renderUserInfo(e.target.value, emailEl);
+  renderUserInfo(e.target, emailEl);
 });
 tabsBtn[0].addEventListener("click", function () {
   profileSection.classList.remove("display-block");
@@ -520,36 +520,27 @@ function loadPreviewImage() {
   avatarShape.classList.add("profile-pircture__active");
 }
 
-function renderUserInfo(text, element) {
-  element.textContent = text;
-  let toggleClasses = false;
+function renderUserInfo(currentNode, targetNode) {
+  let styling = false;
 
-  switch (element.classList[0]) {
-    case "first-name":
-    case "last-name":
-      if (firstNameEl.textContent || lastNameEl.textContent) {
-        toggleClasses = true;
-      } else {
-        toggleClasses = false;
-      }
-      break;
-    case "preview-email":
-      if (emailEl.textContent) {
-        toggleClasses = true;
-      } else {
-        toggleClasses = false;
-      }
-      break;
-    default:
-      return;
+  if (
+    (userFirstName.value && currentNode.name !== "email") ||
+    (userLastName.value && currentNode.name !== "email")
+  ) {
+    targetNode.textContent = currentNode.value;
+    styling = true;
+  } else if (emailInput.value && currentNode.name === "email") {
+    targetNode.textContent = currentNode.value;
+    styling = true;
   }
 
-  if (toggleClasses) {
-    element.parentElement.classList.remove("shape__default");
-    element.parentElement.classList.add("shape__active");
+  if (styling) {
+    targetNode.parentElement.classList.remove("shape__default");
+    targetNode.parentElement.classList.add("shape__active");
   } else {
-    element.parentElement.classList.remove("shape__active");
-    element.parentElement.classList.add("shape__default");
+    targetNode.parentElement.classList.add("shape__default");
+    targetNode.parentElement.classList.remove("shape__active");
+    targetNode.textContent = "";
   }
 }
 
