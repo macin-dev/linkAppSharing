@@ -467,7 +467,7 @@ function validateFormData(e) {
 
   // Validate data before sending
   for (let i = 0; i < formData.length; i++) {
-    const link = formData[i].inputData.link.value;
+    const link = formData[i].inputData.link.value.toLowerCase();
 
     if (!urlRegex.test(link)) {
       e.preventDefault();
@@ -517,6 +517,7 @@ function loadPreviewImage() {
 
   // Load image within the mockup phone
   avatarShape.innerHTML = `<img src="${fetchImgUrl}" alt="user's avatar" >`;
+  avatarShape.classList.add("profile-pircture__active");
 }
 
 function renderUserInfo(text, element) {
