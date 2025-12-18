@@ -1148,3 +1148,19 @@ body {
     flex-basis: 424px;
   }
 }
+
+@media screen and (max-height: 794px) {
+  .phone-mockup-preview {
+    box-sizing: border-box;
+    padding-top: 2em;
+  }
+
+  .mockup-shape {
+    margin-top: 6em;
+  }
+
+  .phone-mockup-preview,
+  .mockup-section {
+    align-items: flex-start;
+  }
+}
